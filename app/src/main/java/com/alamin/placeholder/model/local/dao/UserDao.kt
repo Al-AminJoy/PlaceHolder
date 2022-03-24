@@ -1,8 +1,21 @@
 package com.alamin.placeholder.model.local.dao
 
-import androidx.room.Dao
+import androidx.lifecycle.LiveData
+import androidx.room.*
+import com.alamin.placeholder.model.data.User
+import java.nio.charset.CodingErrorAction.REPLACE
 
 @Dao
 interface UserDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun createUser(user: User);
 
+    @Update
+    suspend fun updateUser(user: User);
+
+    @Query("SELECT * FROM user WHERE id=:id" )
+    fun findItemById(id: Int): LiveData<User>;
+
+    @Delete
+    suspend fun deleteUser(user: User);
 }
