@@ -14,9 +14,8 @@ const val PREFERENCE_NAME = "data_store"
 
 class LocalDataStore(val context: Context ) {
 
-    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(PREFERENCE_NAME)
-
     companion object PreferenceKeys{
+        val Context.dataStore: DataStore<Preferences> by preferencesDataStore(PREFERENCE_NAME)
         val USER = stringPreferencesKey("user")
         val ID = intPreferencesKey("user_id")
         val NAME = stringPreferencesKey("user_name")

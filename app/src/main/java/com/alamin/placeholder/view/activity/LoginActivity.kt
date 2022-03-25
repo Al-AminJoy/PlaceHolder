@@ -1,78 +1,68 @@
-package com.alamin.placeholder.view.fragment
+package com.alamin.placeholder.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.alamin.placeholder.R
-import com.alamin.placeholder.databinding.FragmentLoginBinding
+
+import com.alamin.placeholder.databinding.ActivityLoginBinding
 import com.alamin.placeholder.utils.LocalDataStore
 import com.alamin.placeholder.view_model.UserViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
-class LoginFragment : Fragment() {
-    private val TAG = "LoginFragment"
-    lateinit var binding: FragmentLoginBinding;
+class LoginActivity : AppCompatActivity() {
+    private val TAG = "LoginActivity"
+    private lateinit var binding: ActivityLoginBinding
     lateinit var userViewModel: UserViewModel;
     lateinit var localDataStore: LocalDataStore;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        localDataStore = LocalDataStore(requireContext())
 
-        lifecycleScope.launchWhenCreated {
-            localDataStore.getName().collect {
-                if (it !=-1){
-                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment);
-                }
-            }
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        binding = FragmentLoginBinding.inflate(layoutInflater)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java);
         binding.userViewModel = userViewModel;
         binding.lifecycleOwner = this;
+        setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
 
+        localDataStore = LocalDataStore(this)
+
+    }
+
+    override fun onStart() {
+        super.onStart()
 
         binding.btnLogin.setOnClickListener {
             if (validateData(binding.txtUid.text)){
-                userViewModel.user.observe(viewLifecycleOwner, Observer {
+              userViewModel.user.observe(this, Observer {
                     if (it != null){
                         lifecycleScope.launch {
-                            Log.d(TAG, "USER "+it)
                             userViewModel.createUser(it);
                         }
                         lifecycleScope.launch {
                             localDataStore.storeName(it.name)
                         }
-                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment);
+                        startActivity(Intent(this@LoginActivity,MainActivity::class.java))
+                        finish()
                     }
                 })
                 userViewModel.getUserResponse(binding.txtUid.text.toString().toInt());
             }
         }
-
-        return binding.root;
     }
-
     private fun validateData(email: Editable?): Boolean {
         return email.toString()?.trim()?.isNotEmpty();
     }
-
 
 }
