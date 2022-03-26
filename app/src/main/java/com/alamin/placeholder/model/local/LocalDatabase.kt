@@ -4,11 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.alamin.placeholder.model.data.User
-import com.alamin.placeholder.model.local.dao.UserDao
-@Database(entities = [User::class], version = 1, exportSchema = true)
+import com.alamin.placeholder.model.data.*
+import com.alamin.placeholder.model.local.dao.*
+
+@Database(entities = [User::class, Post::class, Comment::class, Album::class , Photo::class], version = 1, exportSchema = true)
 abstract class LocalDatabase(): RoomDatabase() {
     abstract fun userDao(): UserDao;
+    abstract fun postDao(): PostDao;
+    abstract fun commentDao(): CommentDao;
+    abstract fun albumDao(): AlbumDao;
+    abstract fun photoDao(): PhotoDao;
 
     companion object{
 
