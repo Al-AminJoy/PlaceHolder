@@ -16,8 +16,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserViewModel(application: Application): AndroidViewModel(application) {
-    private  var userDao: UserDao = LocalDatabase.getDatabase(application).userDao();
-    private  var userRepository: UserRepository = UserRepository(userDao);
+    private  val userDao: UserDao = LocalDatabase.getDatabase(application).userDao();
+    private  val userRepository: UserRepository = UserRepository(userDao);
 
 
     val user: LiveData<User>
