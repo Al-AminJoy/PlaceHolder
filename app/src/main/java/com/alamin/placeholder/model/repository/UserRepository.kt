@@ -8,20 +8,20 @@ import com.alamin.placeholder.model.network.APIClient
 import com.alamin.placeholder.model.network.ApiInterface
 
 class UserRepository(private val userDao: UserDao) {
-    var apiInterface: ApiInterface? = APIClient.getInstance().create(ApiInterface::class.java);
+    var apiInterface: ApiInterface = APIClient.getInstance().create(ApiInterface::class.java);
     val userLiveData = MutableLiveData<User>();
 
     val user: LiveData<User>
     get() = userLiveData
 
     suspend fun getUserFromResponse(id: Int){
-        val result = apiInterface?.getUserById(id);
+        val result = apiInterface.getUserById(id);
         if (result?.body() != null){
             userLiveData.postValue(result.body());
         }
     }
 
-     fun itemById(id: Int): LiveData<User>{
+    fun itemById(id: Int): LiveData<User>{
         return userDao.findItemById(id);
     }
 
@@ -36,6 +36,5 @@ class UserRepository(private val userDao: UserDao) {
     suspend fun deleteUser(user: User){
         userDao.deleteUser(user);
     }
-
 
 }
