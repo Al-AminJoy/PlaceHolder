@@ -25,6 +25,10 @@ class UserRepository(private val userDao: UserDao) {
         return userDao.findItemById(id);
     }
 
+    fun getAllUser(): LiveData<List<User>>{
+        return userDao.getAllUser();
+    }
+
     suspend fun createUser(user: User){
         userDao.createUser(user);
     }

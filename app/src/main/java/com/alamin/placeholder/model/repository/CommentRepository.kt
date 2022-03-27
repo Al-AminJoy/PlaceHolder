@@ -11,13 +11,13 @@ import com.alamin.placeholder.model.network.ApiInterface
 class CommentRepository(val commentDao: CommentDao) {
     val apiInterface: ApiInterface = APIClient.getInstance().create(ApiInterface::class.java);
     val commentLiveData = MutableLiveData<Comment>();
-    val commentLieDataList = MutableLiveData<List<Comment>>();
+    val commentLiveDataList = MutableLiveData<List<Comment>>();
 
     val comment: LiveData<Comment>
         get() = commentLiveData;
 
-    val postList: LiveData<List<Comment>>
-        get() = commentLieDataList
+    val commentList: LiveData<List<Comment>>
+        get() = commentLiveDataList
 
     suspend fun createComment(comment: Comment){
         commentDao.createComment(comment);

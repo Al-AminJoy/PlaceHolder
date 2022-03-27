@@ -30,6 +30,28 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
     }
 
     suspend fun createUser(user:User){
-        userRepository.createUser(user);
+        viewModelScope.launch(Dispatchers.IO) {
+            userRepository.createUser(user);
+        }
+    }
+
+    suspend fun updateUser(user: User){
+        viewModelScope.launch(Dispatchers.IO) {
+            userRepository.updateUser(user)
+        }
+    }
+
+    suspend fun deleteUser(user: User){
+        viewModelScope.launch(Dispatchers.IO) {
+            userRepository.deleteUser(user)
+        }
+    }
+
+    fun findUserById(id: Int): LiveData<User>{
+        return userRepository.itemById(id);
+    }
+
+    fun getAllUser(): LiveData<List<User>>{
+        return userRepository.getAllUser();
     }
 }
