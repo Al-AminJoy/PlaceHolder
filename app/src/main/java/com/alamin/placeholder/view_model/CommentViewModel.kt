@@ -22,19 +22,19 @@ class CommentViewModel(application: Application): AndroidViewModel(application){
     val commentList: LiveData<List<Comment>>
         get() = commentRepository.commentList
 
-    suspend fun createComment(comment: Comment){
+    fun createComment(comment: Comment){
         viewModelScope.launch(Dispatchers.IO) {
             commentRepository.createComment(comment);
         }
     }
 
-    suspend fun updateComment(comment: Comment){
+    fun updateComment(comment: Comment){
         viewModelScope.launch(Dispatchers.IO) {
             commentRepository.updateComment(comment)
         }
     }
 
-    suspend fun deleteComment(comment: Comment){
+    fun deleteComment(comment: Comment){
         viewModelScope.launch(Dispatchers.IO) {
             commentRepository.deleteComment(comment)
         }

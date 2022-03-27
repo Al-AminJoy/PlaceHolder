@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.alamin.placeholder.model.data.Album
 import com.alamin.placeholder.model.data.Post
 import com.alamin.placeholder.model.local.LocalDatabase
 import com.alamin.placeholder.model.local.dao.PostDao
@@ -22,19 +21,25 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
     val postList: LiveData<List<Post>>
         get() = postRepository.postList
 
-    suspend fun createPost(post: Post){
+    fun createPost(post: Post){
         viewModelScope.launch(Dispatchers.IO) {
             postRepository.createPost(post);
         }
     }
 
-    suspend fun updatePost(post: Post){
+    fun insertPostList(post: List<Post>){
+        viewModelScope.launch(Dispatchers.IO) {
+            postRepository.insertPostList(post);
+        }
+    }
+
+    fun updatePost(post: Post){
         viewModelScope.launch(Dispatchers.IO) {
             postRepository.updatePost(post)
         }
     }
 
-    suspend fun deletePost(post: Post){
+    fun deletePost(post: Post){
         viewModelScope.launch(Dispatchers.IO) {
             postRepository.deletePost(post)
         }
@@ -46,5 +51,11 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
 
     fun getAllPost(): LiveData<List<Post>>{
         return postRepository.getAllPost();
+    }
+
+     fun getPostFromResponseByUserId(id: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            postRepository.getPostByUserFromResponse(id)
+        }
     }
 }

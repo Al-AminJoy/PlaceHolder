@@ -8,7 +8,7 @@ import java.nio.charset.CodingErrorAction.REPLACE
 
 @Dao
 interface UserDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun createUser(user: User);
 
     @Update

@@ -6,7 +6,7 @@ import com.alamin.placeholder.model.data.Photo
 
 @Dao
 interface PhotoDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun createPhoto(photo: Photo);
 
     @Update

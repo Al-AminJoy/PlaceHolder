@@ -22,19 +22,19 @@ class AlbumViewModel(application: Application): AndroidViewModel(application) {
     val albumList: LiveData<List<Album>>
     get() = albumRepository.albumList
 
-    suspend fun createAlbum(album: Album){
+    fun createAlbum(album: Album){
         viewModelScope.launch(Dispatchers.IO) {
             albumRepository.createAlbum(album);
         }
     }
 
-    suspend fun updateAlbum(album: Album){
+    fun updateAlbum(album: Album){
         viewModelScope.launch(Dispatchers.IO) {
             albumRepository.updateAlbum(album)
         }
     }
 
-    suspend fun deleteAlbum(album: Album){
+    fun deleteAlbum(album: Album){
         viewModelScope.launch(Dispatchers.IO) {
             albumRepository.deleteAlbum(album)
         }

@@ -6,7 +6,7 @@ import com.alamin.placeholder.model.data.Comment
 
 @Dao
 interface CommentDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun createComment(comment: Comment);
 
     @Update

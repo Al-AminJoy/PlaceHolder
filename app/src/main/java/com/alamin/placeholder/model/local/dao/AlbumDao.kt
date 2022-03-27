@@ -6,7 +6,7 @@ import com.alamin.placeholder.model.data.Album
 
 @Dao
 interface AlbumDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun createAlbum(album: Album);
 
     @Update

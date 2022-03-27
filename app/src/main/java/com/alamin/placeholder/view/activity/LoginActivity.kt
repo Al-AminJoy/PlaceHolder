@@ -52,6 +52,8 @@ class LoginActivity : AppCompatActivity() {
                         }
                         lifecycleScope.launch {
                             localDataStore.storeName(it.name)
+                            localDataStore.storeId(it.id)
+                            localDataStore.storeUser(it.toString())
                         }
                         startActivity(Intent(this@LoginActivity,MainActivity::class.java))
                         finish()

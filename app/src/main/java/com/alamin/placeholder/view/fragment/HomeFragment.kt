@@ -6,34 +6,56 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.alamin.placeholder.R
+import com.alamin.placeholder.databinding.FragmentHomeBinding
+import com.alamin.placeholder.model.data.Post
 import com.alamin.placeholder.utils.LocalDataStore
+import com.alamin.placeholder.view.adapter.PostAdapter
+import com.alamin.placeholder.view_model.PostViewModel
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 private const val TAG = "HomeFragment"
 class HomeFragment : Fragment() {
     lateinit var localDataStore: LocalDataStore;
+    lateinit var binding: FragmentHomeBinding;
+    lateinit var postViewModel: PostViewModel;
+    private lateinit var manager: RecyclerView.LayoutManager
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d(TAG, "CHECK_LOGIN "+" Home Fragment")
-
-        localDataStore = LocalDataStore(requireContext())
-        lifecycleScope.launchWhenCreated {
-            localDataStore.getName().collect {
-                Log.d(TAG, "CHECK_LOGIN "+"Store Data In Home "+it)
-                if (it !=-1){
-                }
-            }
-        }
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentHomeBinding.inflate(layoutInflater)
+        postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
+        localDataStore = LocalDataStore(requireContext())
+        manager = LinearLayoutManager(requireContext());
 
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        lifecycleScope.launch(Dispatchers.IO) {
+            localDataStore.getId().collect{
+                postViewModel.getPostFromResponseByUserId(it);
+            }
+        }
+
+        postViewModel.postList.observe(requireActivity(), Observer {
+            postViewModel.insertPostList(it)
+        })
+
+        postViewModel.getAllPost().observe(requireActivity(), Observer {
+            binding.recyclerView.apply {
+                layoutManager = manager;
+                adapter = PostAdapter(it)
+            }
+        })
+
+        return  binding.root;
     }
 
 

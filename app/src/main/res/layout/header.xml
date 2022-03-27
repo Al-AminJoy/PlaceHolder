@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="com.alamin.placeholder.model.data.User"/>
+        <variable
+            name="user"
+            type="User" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/txtHeaderName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:textSize="16sp"
+            android:text="@{user.name}"/>
+
+        <TextView
+            android:id="@+id/txtHeaderEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:textSize="12sp"
+            android:text="@{user.email}"/>
+    </LinearLayout>
+</layout>

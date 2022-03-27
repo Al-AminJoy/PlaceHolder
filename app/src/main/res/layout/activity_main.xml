@@ -7,38 +7,27 @@
 
  </data>
 
- <androidx.constraintlayout.widget.ConstraintLayout
+ <androidx.drawerlayout.widget.DrawerLayout
+     android:id="@+id/layoutDrawer"
      android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     tools:context=".view.activity.MainActivity">
-
-  <com.google.android.material.appbar.AppBarLayout
-      android:id="@+id/appBarLayout"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      android:theme="@style/Theme.PlaceHolder.AppBarOverlay">
-
-   <androidx.appcompat.widget.Toolbar
-       android:id="@+id/toolbar"
-       android:layout_width="match_parent"
-       android:layout_height="?attr/actionBarSize"
-       android:background="?attr/colorPrimary"
-       app:popupTheme="@style/Theme.PlaceHolder.PopupOverlay" />
-
-  </com.google.android.material.appbar.AppBarLayout>
-
-  <include
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-      app:layout_constraintBottom_toBottomOf="parent"
-      layout="@layout/content_main" />
+     android:layout_height="match_parent">
+     <include
+         android:layout_width="match_parent"
+         android:layout_height="0dp"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+         app:layout_constraintBottom_toBottomOf="parent"
+         layout="@layout/content_main" />
+   <com.google.android.material.navigation.NavigationView
+       android:id="@+id/navView"
+       android:layout_width="wrap_content"
+       android:layout_height="match_parent"
+       android:layout_gravity="start"
+       app:headerLayout="@layout/header"
+       app:menu="@menu/menu"/>
 
 
- </androidx.constraintlayout.widget.ConstraintLayout>
+ </androidx.drawerlayout.widget.DrawerLayout>
+
 </layout>

@@ -6,8 +6,11 @@ import com.alamin.placeholder.model.data.Post
 
 @Dao
 interface PostDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun createPost(post: Post);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertPostList(posts: List<Post>);
 
     @Update
     suspend fun updatePost(post: Post);
