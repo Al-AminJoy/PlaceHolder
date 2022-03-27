@@ -19,12 +19,12 @@
     </fragment>
     <fragment
         android:id="@+id/createPostFragment"
-        android:name="com.alamin.placeholder.view.activity.CreatePostFragment"
+        android:name="com.alamin.placeholder.view.fragment.CreatePostFragment"
         android:label="Create"
         tools:layout="@layout/fragment_create_post" />
     <fragment
         android:id="@+id/galleryFragment"
-        android:name="com.alamin.placeholder.view.activity.GalleryFragment"
+        android:name="com.alamin.placeholder.view.fragment.GalleryFragment"
         android:label="Gallery"
         tools:layout="@layout/fragment_gallery" >
         <action
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/photoFragment"
-        android:name="com.alamin.placeholder.view.activity.PhotoFragment"
+        android:name="com.alamin.placeholder.view.fragment.PhotoFragment"
         android:label="Photo"
         tools:layout="@layout/fragment_photo" />
 </navigation>

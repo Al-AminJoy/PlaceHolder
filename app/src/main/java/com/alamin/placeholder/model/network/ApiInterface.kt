@@ -1,10 +1,12 @@
 package com.alamin.placeholder.model.network
 
+import com.alamin.placeholder.model.data.Album
 import com.alamin.placeholder.model.data.Post
 import com.alamin.placeholder.model.data.User
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiInterface {
     @GET("users/{id}")
@@ -12,4 +14,7 @@ interface ApiInterface {
 
     @GET("/posts")
     suspend fun getAllPost(): Response<List<Post>>
+
+    @GET("albums")
+    suspend fun getAllAlbum(@Query(value = "userId") userId: Int): Response<List<Album>>
 }

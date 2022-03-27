@@ -22,6 +22,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.flow.collect
+import java.lang.Exception
 
 private const val TAG = "MainActivity"
 
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         headerBinding = HeaderBinding.bind(binding.navView.getHeaderView(0));
         lifecycleScope.launchWhenCreated {
             localDatabase.getUser().collect {
-                var user: User = Gson().fromJson(it.toString(),User::class.java);
+                var user: User = Gson().fromJson(it.toString(), User::class.java);
                 headerBinding.user = user
             }
         }
@@ -51,11 +52,13 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.fragment);
 
-        appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.homeFragment,
-            R.id.galleryFragment,
-            R.id.createPostFragment,
-        ), binding.layoutDrawer)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment,
+                R.id.galleryFragment,
+                R.id.createPostFragment,
+            ), binding.layoutDrawer
+        )
 
         setupActionBarWithNavController(navController, appBarConfiguration);
         binding.navView.setupWithNavController(navController);

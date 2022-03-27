@@ -22,6 +22,10 @@ class AlbumRepository(val albumDao: AlbumDao) {
         albumDao.createAlbum(album);
     }
 
+    suspend fun insertAlbumList(albumList: List<Album>){
+        albumDao.insertAlbumList(albumList);
+    }
+
     suspend fun updateAlbum(album: Album){
         albumDao.updateAlbum(album);
     }
@@ -36,5 +40,12 @@ class AlbumRepository(val albumDao: AlbumDao) {
 
     fun getAllAlbum(): LiveData<List<Album>>{
         return albumDao.getAllAlbum();
+    }
+
+    suspend fun getAlbumFromResponse(id: Int){
+       val result = apiInterface.getAllAlbum(id);
+        if (result != null){
+            albumLiveDataList.postValue(result.body());
+        }
     }
 }

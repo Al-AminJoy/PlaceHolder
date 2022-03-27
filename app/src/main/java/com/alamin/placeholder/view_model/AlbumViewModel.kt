@@ -12,39 +12,51 @@ import com.alamin.placeholder.model.repository.AlbumRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AlbumViewModel(application: Application): AndroidViewModel(application) {
+class AlbumViewModel(application: Application) : AndroidViewModel(application) {
     private val albumDao: AlbumDao = LocalDatabase.getDatabase(application).albumDao();
     private val albumRepository: AlbumRepository = AlbumRepository(albumDao);
 
-    val album : LiveData<Album>
-    get() = albumRepository.album
+    val album: LiveData<Album>
+        get() = albumRepository.album
 
     val albumList: LiveData<List<Album>>
-    get() = albumRepository.albumList
+        get() = albumRepository.albumList
 
-    fun createAlbum(album: Album){
+    fun createAlbum(album: Album) {
         viewModelScope.launch(Dispatchers.IO) {
             albumRepository.createAlbum(album);
         }
     }
 
-    fun updateAlbum(album: Album){
+    fun insertAlbumList(albumList: List<Album>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            albumRepository.insertAlbumList(albumList);
+        }
+    }
+
+    fun updateAlbum(album: Album) {
         viewModelScope.launch(Dispatchers.IO) {
             albumRepository.updateAlbum(album)
         }
     }
 
-    fun deleteAlbum(album: Album){
+    fun deleteAlbum(album: Album) {
         viewModelScope.launch(Dispatchers.IO) {
             albumRepository.deleteAlbum(album)
         }
     }
 
-    fun findAlbumById(id: Int): LiveData<Album>{
+    fun findAlbumById(id: Int): LiveData<Album> {
         return albumRepository.itemById(id);
     }
 
-    fun getAllAlbum(): LiveData<List<Album>>{
+    fun getAllAlbum(): LiveData<List<Album>> {
         return albumRepository.getAllAlbum();
+    }
+
+    fun getAlbumFromResponse(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            albumRepository.getAlbumFromResponse(id)
+        }
     }
 }

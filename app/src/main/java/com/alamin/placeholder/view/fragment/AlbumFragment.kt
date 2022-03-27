@@ -10,51 +10,44 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.alamin.placeholder.databinding.FragmentHomeBinding
+import com.alamin.placeholder.R
+import com.alamin.placeholder.databinding.FragmentGalleryBinding
 import com.alamin.placeholder.utils.AppUtils
 import com.alamin.placeholder.utils.LocalDataStore
-import com.alamin.placeholder.view.adapter.PostAdapter
-import com.alamin.placeholder.view_model.PostViewModel
-import kotlinx.coroutines.Dispatchers
+import com.alamin.placeholder.view.adapter.AlbumAdapter
+import com.alamin.placeholder.view_model.AlbumViewModel
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
-private const val TAG = "HomeFragment"
-
-class HomeFragment : Fragment() {
+class GalleryFragment : Fragment() {
+    private lateinit var binding: FragmentGalleryBinding;
+    lateinit var manager: RecyclerView.LayoutManager;
     lateinit var localDataStore: LocalDataStore;
-    lateinit var binding: FragmentHomeBinding;
-    lateinit var postViewModel: PostViewModel;
-    private lateinit var manager: RecyclerView.LayoutManager
+    lateinit var albumViewModel: AlbumViewModel;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(layoutInflater)
-        postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
-        localDataStore = LocalDataStore(requireContext())
+        binding = FragmentGalleryBinding.inflate(layoutInflater);
+        albumViewModel = ViewModelProvider(this).get(AlbumViewModel::class.java);
+        localDataStore = LocalDataStore(requireContext());
         manager = LinearLayoutManager(requireContext());
-
-        lifecycleScope.launch(Dispatchers.IO) {
+        lifecycleScope.launchWhenCreated {
             localDataStore.getId().collect {
                 if (AppUtils.isOnline(requireContext())) {
-                    postViewModel.getPostFromResponseByUserId(it)
+                    albumViewModel.getAlbumFromResponse(it)
                 };
             }
         }
-
-        postViewModel.postList.observe(requireActivity(), Observer {
-            postViewModel.insertPostList(it)
+        albumViewModel.albumList.observe(requireActivity(), Observer {
+            albumViewModel.insertAlbumList(it)
         })
-
-        postViewModel.getAllPost().observe(requireActivity(), Observer {
+        albumViewModel.getAllAlbum().observe(requireActivity(), Observer {
             binding.recyclerView.apply {
-                layoutManager = manager;
-                adapter = PostAdapter(it)
+                layoutManager = manager
+                adapter = AlbumAdapter(it);
             }
         })
-
         return binding.root;
     }
 }
