@@ -36,7 +36,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         localDatabase = LocalDataStore(this)
 
+        headerBinding = HeaderBinding.bind(binding.navView.getHeaderView(0));
+        lifecycleScope.launchWhenCreated {
+            localDatabase.getUser().collect {
+                var user: User = Gson().fromJson(it.toString(),User::class.java);
+                headerBinding.user = user
+            }
+        }
+
         setContentView(binding.root)
+
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 

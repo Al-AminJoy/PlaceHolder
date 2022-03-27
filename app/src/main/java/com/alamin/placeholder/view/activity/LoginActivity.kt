@@ -15,6 +15,7 @@ import com.alamin.placeholder.R
 import com.alamin.placeholder.databinding.ActivityLoginBinding
 import com.alamin.placeholder.utils.LocalDataStore
 import com.alamin.placeholder.view_model.UserViewModel
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -53,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
                         lifecycleScope.launch {
                             localDataStore.storeName(it.name)
                             localDataStore.storeId(it.id)
-                            localDataStore.storeUser(it.toString())
+                            localDataStore.storeUser(Gson().toJson(it))
                         }
                         startActivity(Intent(this@LoginActivity,MainActivity::class.java))
                         finish()
