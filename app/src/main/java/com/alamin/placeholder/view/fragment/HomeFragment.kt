@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
         postViewModel.getAllPost().observe(requireActivity(), Observer {
             binding.recyclerView.apply {
                 layoutManager = manager;
-                adapter = PostAdapter(it)
+                adapter = PostAdapter(it.asReversed())
             }
         })
 

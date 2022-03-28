@@ -24,6 +24,11 @@ class PostRepository(val postDao: PostDao) {
         postDao.createPost(post);
     }
 
+    suspend fun createPostToServer(post: Post): Boolean{
+        val response = apiInterface.createPost(post);
+        return response.isSuccessful
+    }
+
     suspend fun insertPostList(post: List<Post>){
         postDao.insertPostList(post);
     }

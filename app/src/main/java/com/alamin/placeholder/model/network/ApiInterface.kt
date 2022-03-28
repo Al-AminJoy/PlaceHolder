@@ -4,10 +4,10 @@ import com.alamin.placeholder.model.data.Album
 import com.alamin.placeholder.model.data.Photo
 import com.alamin.placeholder.model.data.Post
 import com.alamin.placeholder.model.data.User
+import okhttp3.ResponseBody
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
+import java.lang.reflect.Type
 
 interface ApiInterface {
     @GET("users/{id}")
@@ -21,4 +21,7 @@ interface ApiInterface {
 
     @GET("photos")
     suspend fun getAllPhoto(@Query(value = "albumId") albumId: Int): Response<List<Photo>>
+
+    @POST("posts")
+    suspend fun createPost(@Body post: Post): Response<ResponseBody>
 }

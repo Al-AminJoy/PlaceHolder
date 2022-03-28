@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 @Entity
 data class Post(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
     val id: Int,
     @SerializedName("body")
