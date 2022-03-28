@@ -7,10 +7,11 @@ import com.alamin.placeholder.databinding.GalleryLayoutBinding
 import com.alamin.placeholder.model.data.Album
 
 class AlbumAdapter(private val albumList: List<Album>): RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder> (){
-
+    private var albumClickListener: AlbumClickListener? = null;
     inner class AlbumViewHolder(val binding: GalleryLayoutBinding): RecyclerView.ViewHolder(binding.root){
       fun binding(album: Album){
             binding.album = album;
+            binding.itemClick = albumClickListener
         }
     }
 
@@ -28,5 +29,9 @@ class AlbumAdapter(private val albumList: List<Album>): RecyclerView.Adapter<Alb
 
     override fun getItemCount(): Int {
         return albumList.size;
+    }
+
+     fun setOnClickItem(albumClickListener: AlbumClickListener){
+        this.albumClickListener = albumClickListener;
     }
 }

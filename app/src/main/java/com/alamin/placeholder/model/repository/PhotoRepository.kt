@@ -1,5 +1,6 @@
 package com.alamin.placeholder.model.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alamin.placeholder.model.data.Photo
@@ -7,6 +8,7 @@ import com.alamin.placeholder.model.local.dao.PhotoDao
 import com.alamin.placeholder.model.network.APIClient
 import com.alamin.placeholder.model.network.ApiInterface
 
+private const val TAG = "PhotoRepository"
 class PhotoRepository(val photoDao: PhotoDao) {
     val apiInterface: ApiInterface = APIClient.getInstance().create(ApiInterface::class.java)
     val photoLiveData = MutableLiveData<Photo>();
@@ -20,6 +22,10 @@ class PhotoRepository(val photoDao: PhotoDao) {
 
     suspend fun createPhoto(photo: Photo){
         photoDao.createPhoto(photo);
+    }
+
+    suspend fun insertPhotoList(photos: List<Photo>){
+        photoDao.insertPhotoList(photos);
     }
 
     suspend fun updatePhoto(photo: Photo){
@@ -36,5 +42,12 @@ class PhotoRepository(val photoDao: PhotoDao) {
 
     fun getAllPhoto(): LiveData<List<Photo>>{
         return photoDao.getAllPhoto();
+    }
+
+    suspend fun getAllPhotoFromResponse(id: Int){
+        val result = apiInterface.getAllPhoto(id);
+        if (result != null){
+            photoLiveDataList.postValue(result.body())
+        }
     }
 }

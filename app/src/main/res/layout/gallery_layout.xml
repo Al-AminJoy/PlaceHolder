@@ -3,9 +3,13 @@
 
     <data>
         <import type="com.alamin.placeholder.model.data.Album"/>
+        <import type="com.alamin.placeholder.view.adapter.AlbumClickListener"/>
         <variable
             name="album"
             type="Album" />
+        <variable
+            name="itemClick"
+            type="AlbumClickListener" />
     </data>
 
     <LinearLayout
@@ -14,7 +18,8 @@
         android:layout_margin="8dp"
         android:padding="8dp"
         android:background="@color/Blue_Koi"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:onClick="@{()->itemClick.onItemClicked(album)}">
 
         <TextView
             android:id="@+id/txtGalleryId"

@@ -29,19 +29,19 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    suspend fun createUser(user:User){
+     fun createUser(user:User){
         viewModelScope.launch(Dispatchers.IO) {
             userRepository.createUser(user);
         }
     }
 
-    suspend fun updateUser(user: User){
+     fun updateUser(user: User){
         viewModelScope.launch(Dispatchers.IO) {
             userRepository.updateUser(user)
         }
     }
 
-    suspend fun deleteUser(user: User){
+     fun deleteUser(user: User){
         viewModelScope.launch(Dispatchers.IO) {
             userRepository.deleteUser(user)
         }

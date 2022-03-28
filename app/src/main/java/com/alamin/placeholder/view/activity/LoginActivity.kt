@@ -20,8 +20,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
+private const val TAG = "LoginActivity"
 class LoginActivity : AppCompatActivity() {
-    private val TAG = "LoginActivity"
     private lateinit var binding: ActivityLoginBinding
     lateinit var userViewModel: UserViewModel;
     lateinit var localDataStore: LocalDataStore;
@@ -50,14 +50,12 @@ class LoginActivity : AppCompatActivity() {
                     if (it != null){
                         lifecycleScope.launch {
                             userViewModel.createUser(it);
-                        }
-                        lifecycleScope.launch {
                             localDataStore.storeName(it.name)
                             localDataStore.storeId(it.id)
                             localDataStore.storeUser(Gson().toJson(it))
+                            startActivity(Intent(this@LoginActivity,MainActivity::class.java))
+                            finish()
                         }
-                        startActivity(Intent(this@LoginActivity,MainActivity::class.java))
-                        finish()
                     }
                 })
                 userViewModel.getUserResponse(binding.txtUid.text.toString().toInt());

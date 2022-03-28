@@ -21,19 +21,25 @@ class PhotoViewModel(application: Application): AndroidViewModel(application) {
     val photoList: LiveData<List<Photo>>
         get() = photoRepository.photoList
 
-    suspend fun createPhoto(photo: Photo){
+     fun createPhoto(photo: Photo){
         viewModelScope.launch(Dispatchers.IO) {
             photoRepository.createPhoto(photo);
         }
     }
 
-    suspend fun updatePhoto(photo: Photo){
+    fun insertPhotoList(photos: List<Photo>){
+        viewModelScope.launch(Dispatchers.IO) {
+            photoRepository.insertPhotoList(photos)
+        }
+    }
+
+     fun updatePhoto(photo: Photo){
         viewModelScope.launch(Dispatchers.IO) {
             photoRepository.updatePhoto(photo)
         }
     }
 
-    suspend fun deletePhoto(photo: Photo){
+     fun deletePhoto(photo: Photo){
         viewModelScope.launch(Dispatchers.IO) {
             photoRepository.deletePhoto(photo)
         }
@@ -45,5 +51,11 @@ class PhotoViewModel(application: Application): AndroidViewModel(application) {
 
     fun getAllPhoto(): LiveData<List<Photo>>{
         return photoRepository.getAllPhoto();
+    }
+
+    fun getAllPhotoFromResponse(id : Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            photoRepository.getAllPhotoFromResponse(id)
+        }
     }
 }

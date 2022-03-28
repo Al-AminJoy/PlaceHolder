@@ -30,10 +30,15 @@
         <action
             android:id="@+id/action_galleryFragment_to_photoFragment"
             app:destination="@id/photoFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/photoFragment"
         android:name="com.alamin.placeholder.view.fragment.PhotoFragment"
         android:label="Photo"
-        tools:layout="@layout/fragment_photo" />
+        tools:layout="@layout/fragment_photo" >
+        <argument android:name="album"
+            app:argType="com.alamin.placeholder.model.data.Album"/>
+    </fragment>
+
 </navigation>

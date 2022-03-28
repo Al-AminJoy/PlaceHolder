@@ -20,11 +20,9 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launchWhenCreated {
             localDataStore.getName().collect {
                 if (it !=-1){
-                    Log.d(TAG, "CHECK_LOGIN "+"Logged In")
                     startActivity(Intent(this@SplashActivity,MainActivity::class.java))
                     finish()
                 }else{
-                    Log.d(TAG, "CHECK_LOGIN "+" Not Logged In")
                     startActivity(Intent(this@SplashActivity,LoginActivity::class.java))
                     finish()
                 }

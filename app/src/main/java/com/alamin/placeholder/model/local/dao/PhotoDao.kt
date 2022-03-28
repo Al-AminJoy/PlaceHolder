@@ -9,6 +9,9 @@ interface PhotoDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun createPhoto(photo: Photo);
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertPhotoList(photos: List<Photo>);
+
     @Update
     suspend fun updatePhoto(photo: Photo);
 
