@@ -11,7 +11,7 @@ import kotlinx.android.parcel.RawValue
 @Entity
 @Parcelize
 data class User(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
     val id: Int,
     @SerializedName("address")

@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity
 @Parcelize
 data class Post(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
     val id: Int,
     @SerializedName("body")

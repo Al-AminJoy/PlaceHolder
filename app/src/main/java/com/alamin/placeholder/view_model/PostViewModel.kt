@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.alamin.placeholder.model.data.Post
 import com.alamin.placeholder.model.local.LocalDatabase
 import com.alamin.placeholder.model.local.dao.PostDao
+import com.alamin.placeholder.model.network.OnResponseCall
 import com.alamin.placeholder.model.repository.PostRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,6 +27,19 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
             postRepository.createPost(post);
         }
     }
+
+     fun createPostToServer(post: Post, onResponseCall: OnResponseCall){
+        viewModelScope.launch(Dispatchers.IO) {
+           val response = postRepository.createPostToServer(post);
+            if (response){
+                onResponseCall.onSuccess("Success");
+            }else{
+                onResponseCall.onFailed("Failed");
+            }
+        }
+    }
+
+
 
     fun insertPostList(post: List<Post>){
         viewModelScope.launch(Dispatchers.IO) {

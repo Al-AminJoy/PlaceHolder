@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity
 @Parcelize
 data class Album(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
     val id: Int,
     @SerializedName("title")
