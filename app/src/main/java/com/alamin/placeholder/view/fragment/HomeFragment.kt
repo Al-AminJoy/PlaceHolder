@@ -63,7 +63,7 @@ class HomeFragment : Fragment() {
                 }
 
             })
-            recyclerView.adapter = adapter
+            binding.recyclerView.adapter = adapter
         })
 
         return binding.root;

@@ -38,17 +38,18 @@ class UpdateFragment : Fragment() {
         binding.btnUpdate.setOnClickListener {
             if (isValid(binding.txtBody.text.toString(),binding.txtTitle.text.toString())){
                 val post= Post(arg.post.id,binding.txtBody.text.toString(),binding.txtTitle.text.toString(),arg.post.userId)
-                viewModel.updatePostToServer(post,object: OnResponseCall{
+                viewModel.updatePostToServer(post, object: OnResponseCall{
                     override fun onSuccess(message: String) {
-                        viewModel.updatePost(post);
-                        Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
-                        /*lifecycleScope.launch(Dispatchers.Main) {
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
                             findNavController().navigate(R.id.action_updateFragment_to_homeFragment);
-                        }*/
+                        }
                     }
-
                     override fun onFailed(message: String) {
-                        Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
+                        }
+
                     }
 
                 })

@@ -41,7 +41,6 @@ class CreatePostFragment : Fragment() {
                         val post = Post(0,binding.txtBody.text.toString(),binding.txtTitle.text.toString(),it);
                         viewModel.createPostToServer(post,object : OnResponseCall{
                             override fun onSuccess(message: String) {
-                                viewModel.createPost(post)
                                 binding.txtTitle.setText("");
                                 binding.txtBody.setText("");
                                 lifecycleScope.launch(Dispatchers.Main) {
@@ -50,7 +49,9 @@ class CreatePostFragment : Fragment() {
                             }
 
                             override fun onFailed(message: String) {
-                                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                                lifecycleScope.launch(Dispatchers.Main) {
+                                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                                }
                             }
                         });
                     }
