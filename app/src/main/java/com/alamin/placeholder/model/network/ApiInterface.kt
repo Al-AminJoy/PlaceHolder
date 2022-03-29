@@ -24,4 +24,8 @@ interface ApiInterface {
 
     @POST("posts")
     suspend fun createPost(@Body post: Post): Response<ResponseBody>
+
+    @FormUrlEncoded
+    @PATCH("posts/{id}")
+    suspend fun updatePost(@Field(value = "id") id: Int): Response<ResponseBody>
 }

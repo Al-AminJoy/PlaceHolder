@@ -26,7 +26,9 @@ class PostRepository(val postDao: PostDao) {
 
     suspend fun createPostToServer(post: Post): Boolean{
         val response = apiInterface.createPost(post);
-        return response.isSuccessful
+        response?.let {
+            return response.isSuccessful
+        }
     }
 
     suspend fun insertPostList(post: List<Post>){
@@ -35,6 +37,13 @@ class PostRepository(val postDao: PostDao) {
 
     suspend fun updatePost(post: Post){
         postDao.updatePost(post);
+    }
+
+    suspend fun updatePostToServer(post: Post):Boolean{
+        val result = apiInterface.updatePost(post.id);
+        result?.let {
+            return result.isSuccessful
+        }
     }
 
     suspend fun deletePost(post: Post){

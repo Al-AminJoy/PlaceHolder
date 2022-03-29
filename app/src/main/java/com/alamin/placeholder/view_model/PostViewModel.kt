@@ -53,6 +53,18 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun updatePostToServer(post: Post, onResponseCall: OnResponseCall){
+        viewModelScope.launch(Dispatchers.IO) {
+            val  response = postRepository.updatePostToServer(post);
+            if (response){
+                onResponseCall.onSuccess("Success")
+            }else{
+                onResponseCall.onFailed("Failed")
+            }
+
+        }
+    }
+
     fun deletePost(post: Post){
         viewModelScope.launch(Dispatchers.IO) {
             postRepository.deletePost(post)
