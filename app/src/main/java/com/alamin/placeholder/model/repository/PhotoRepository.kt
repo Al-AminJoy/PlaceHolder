@@ -7,6 +7,7 @@ import com.alamin.placeholder.model.data.Photo
 import com.alamin.placeholder.model.local.dao.PhotoDao
 import com.alamin.placeholder.model.network.APIClient
 import com.alamin.placeholder.model.network.ApiInterface
+import retrofit2.Response
 
 private const val TAG = "PhotoRepository"
 class PhotoRepository(val photoDao: PhotoDao) {
@@ -45,8 +46,8 @@ class PhotoRepository(val photoDao: PhotoDao) {
     }
 
     suspend fun getAllPhotoFromResponse(id: Int){
-        val result = apiInterface.getAllPhoto(id);
-        if (result != null){
+        val result: Response<List<Photo>> = apiInterface.getAllPhoto(id);
+        result?.let {
             photoLiveDataList.postValue(result.body())
         }
     }

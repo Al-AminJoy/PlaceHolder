@@ -59,11 +59,6 @@ class GalleryFragment : Fragment() {
                 }
             })
             binding.recyclerView.adapter = adapter;
-           /* binding.recyclerView.apply {
-                layoutManager = manager
-                adapter = AlbumAdapter(it);
-
-            }*/
         })
         return binding.root;
     }

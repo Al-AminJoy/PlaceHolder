@@ -47,7 +47,7 @@ class PostRepository(val postDao: PostDao) {
     suspend fun getPostByUserFromResponse(id: Int){
         val result = apiInterface.getAllPost();
         var list = arrayListOf<Post>()
-        if (result != null){
+        result?.let {
             result.body()?.forEach {
                 if (it.userId == id){
                     list.add(it)

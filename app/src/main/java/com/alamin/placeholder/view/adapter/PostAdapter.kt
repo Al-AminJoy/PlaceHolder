@@ -8,10 +8,12 @@ import com.alamin.placeholder.model.data.Post
 
 class PostAdapter(private val postList: List<Post>):
     RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+    private lateinit var postClickListener: PostClickListener
 
    inner class PostViewHolder(private val binding: PostLayoutBinding): RecyclerView.ViewHolder(binding.root) {
        fun bind(post: Post){
            binding.post = post
+           binding.itemClickListener = postClickListener;
        }
     }
 
@@ -27,5 +29,9 @@ class PostAdapter(private val postList: List<Post>):
 
     override fun getItemCount(): Int {
        return postList.size;
+    }
+
+    fun setPostClickListener(postClickListener: PostClickListener){
+        this.postClickListener = postClickListener;
     }
 }

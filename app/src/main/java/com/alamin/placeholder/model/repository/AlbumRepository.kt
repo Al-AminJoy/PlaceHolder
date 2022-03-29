@@ -6,6 +6,7 @@ import com.alamin.placeholder.model.data.Album
 import com.alamin.placeholder.model.local.dao.AlbumDao
 import com.alamin.placeholder.model.network.APIClient
 import com.alamin.placeholder.model.network.ApiInterface
+import retrofit2.Response
 
 class AlbumRepository(val albumDao: AlbumDao) {
     val apiInterface: ApiInterface = APIClient.getInstance().create(ApiInterface::class.java);
@@ -43,9 +44,9 @@ class AlbumRepository(val albumDao: AlbumDao) {
     }
 
     suspend fun getAlbumFromResponse(id: Int){
-       val result = apiInterface.getAllAlbum(id);
-        if (result != null){
-            albumLiveDataList.postValue(result.body());
+        val result : Response<List<Album>> = apiInterface.getAllAlbum(id);
+        result?.let {
+            albumLiveDataList.postValue(it.body());
         }
     }
 }

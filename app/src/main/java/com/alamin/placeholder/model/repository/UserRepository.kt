@@ -16,7 +16,7 @@ class UserRepository(private val userDao: UserDao) {
 
     suspend fun getUserFromResponse(id: Int){
         val result = apiInterface.getUserById(id);
-        if (result.body() != null){
+        result?.let {
             userLiveData.postValue(result.body());
         }
     }

@@ -3,9 +3,13 @@
 
     <data>
         <import type="com.alamin.placeholder.model.data.Post"/>
+        <import type="com.alamin.placeholder.view.adapter.PostClickListener"/>
         <variable
             name="post"
             type="Post" />
+        <variable
+            name="itemClickListener"
+            type="PostClickListener" />
     </data>
 
     <LinearLayout
@@ -14,7 +18,8 @@
         android:padding="8dp"
         android:background="@color/Blue_Koi"
         android:layout_margin="8dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:onClick="@{()->itemClickListener.onItemClick(post)}">
 
         <TextView
             android:id="@+id/txtPostId"
