@@ -1,5 +1,6 @@
 package com.alamin.placeholder.view.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
+import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.alamin.placeholder.R
 import com.alamin.placeholder.databinding.ActivityMainBinding
@@ -62,6 +64,16 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration);
         binding.navView.setupWithNavController(navController);
+        binding.navView.setNavigationItemSelectedListener {
+            if (it.itemId == R.id.logout){
+                startActivity(Intent(this@MainActivity,LoginActivity::class.java))
+                finish()
+            }else{
+                onNavDestinationSelected(it, navController)
+                binding.layoutDrawer.closeDrawers()
+            }
+            true
+        }
 
     }
 
