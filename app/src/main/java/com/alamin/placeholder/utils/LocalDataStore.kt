@@ -21,6 +21,12 @@ class LocalDataStore(val context: Context ) {
         val NAME = stringPreferencesKey("user_name")
     }
 
+    suspend fun clearAllPreferences(){
+        context.dataStore.edit {
+            it.clear();
+        }
+    }
+
     suspend fun storeUser(user: String){
         context.dataStore.edit {
             it[USER] = user;

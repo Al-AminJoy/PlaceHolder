@@ -24,6 +24,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
 private const val TAG = "MainActivity"
@@ -66,6 +67,9 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setupWithNavController(navController);
         binding.navView.setNavigationItemSelectedListener {
             if (it.itemId == R.id.logout){
+                lifecycleScope.launch {
+                    localDatabase.clearAllPreferences();
+                }
                 startActivity(Intent(this@MainActivity,LoginActivity::class.java))
                 finish()
             }else{
