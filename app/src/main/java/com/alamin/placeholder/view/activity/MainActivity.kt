@@ -31,7 +31,6 @@ private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private var toolbar: Toolbar? = null
     private lateinit var binding: ActivityMainBinding
     lateinit var headerBinding: HeaderBinding;
     private lateinit var localDatabase: LocalDataStore;
@@ -53,8 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.includeContent.toolbar)
 
         val navController = findNavController(R.id.fragment);
 
