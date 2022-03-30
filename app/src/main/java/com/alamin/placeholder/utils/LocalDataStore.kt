@@ -12,48 +12,60 @@ import kotlinx.coroutines.flow.map
 
 const val PREFERENCE_NAME = "data_store"
 
-class LocalDataStore(val context: Context ) {
+class LocalDataStore(val context: Context) {
 
-    companion object PreferenceKeys{
+    companion object PreferenceKeys {
         val Context.dataStore: DataStore<Preferences> by preferencesDataStore(PREFERENCE_NAME)
         val USER = stringPreferencesKey("user")
         val ID = intPreferencesKey("user_id")
         val NAME = stringPreferencesKey("user_name")
     }
 
-    suspend fun clearAllPreferences(){
-        context.dataStore.edit {
-            it.clear();
-        }
-    }
-
-    suspend fun storeUser(user: String){
+    suspend fun storeUser(user: String) {
         context.dataStore.edit {
             it[USER] = user;
         }
     }
 
-    suspend fun storeId(id:Int){
+    fun getUser() = context.dataStore.data.map {
+        it[USER] ?: -1
+    }
+
+    suspend fun removeUser() {
+        context.dataStore.edit {
+            it.remove(USER);
+        }
+    }
+
+    suspend fun storeId(id: Int) {
         context.dataStore.edit {
             it[ID] = id
         }
     }
 
-    suspend fun storeName(name: String){
+    fun getId() = context.dataStore.data.map {
+        it[ID] ?: -1
+    }
+
+    suspend fun removeId() {
+        context.dataStore.edit {
+            it.remove(ID);
+        }
+    }
+
+    suspend fun storeName(name: String) {
         context.dataStore.edit {
             it[NAME] = name;
         }
     }
 
-    fun getUser() = context.dataStore.data.map {
-        it[USER]?:-1
-    }
-
-    fun getId() = context.dataStore.data.map {
-        it[ID]?:-1
-    }
-
     fun getName() = context.dataStore.data.map {
-        it[NAME]?:-1
+        it[NAME] ?: -1
+    }
+
+    suspend fun removeName() {
+        context.dataStore.edit {
+            it.remove(NAME);
+        }
     }
 }

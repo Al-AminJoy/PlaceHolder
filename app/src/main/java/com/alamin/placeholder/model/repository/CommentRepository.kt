@@ -19,23 +19,23 @@ class CommentRepository(val commentDao: CommentDao) {
     val commentList: LiveData<List<Comment>>
         get() = commentLiveDataList
 
-    suspend fun createComment(comment: Comment){
+    suspend fun createComment(comment: Comment) {
         commentDao.createComment(comment);
     }
 
-    suspend fun updateComment(comment: Comment){
+    suspend fun updateComment(comment: Comment) {
         commentDao.updateComment(comment);
     }
 
-    suspend fun deleteComment(comment: Comment){
+    suspend fun deleteComment(comment: Comment) {
         commentDao.deleteComment(comment);
     }
 
-    fun itemById(id: Int): LiveData<Comment>{
+    fun itemById(id: Int): LiveData<Comment> {
         return commentDao.findCommentById(id);
     }
 
-    fun getAllComment(): LiveData<List<Comment>>{
+    fun getAllComment(): LiveData<List<Comment>> {
         return commentDao.getAllComment();
     }
 }

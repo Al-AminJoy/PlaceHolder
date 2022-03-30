@@ -19,10 +19,11 @@ import com.alamin.placeholder.view.adapter.PhotoAdapter
 import com.alamin.placeholder.view_model.PhotoViewModel
 
 private const val TAG = "PhotoFragment"
+
 class PhotoFragment : Fragment() {
     private lateinit var binding: FragmentPhotoBinding;
     private lateinit var photoViewModel: PhotoViewModel;
-    private lateinit var manager:RecyclerView.LayoutManager;
+    private lateinit var manager: RecyclerView.LayoutManager;
     private val args by navArgs<PhotoFragmentArgs>()
 
     override fun onCreateView(
@@ -32,13 +33,13 @@ class PhotoFragment : Fragment() {
         binding = FragmentPhotoBinding.inflate(layoutInflater);
         photoViewModel = ViewModelProvider(this).get(PhotoViewModel::class.java);
         manager = LinearLayoutManager(requireContext());
-        if (AppUtils.isOnline(requireContext())){
+        if (AppUtils.isOnline(requireContext())) {
             photoViewModel.getAllPhotoFromResponse(args.album.id)
         }
         photoViewModel.photoList.observe(requireActivity(),
             Observer {
                 photoViewModel.insertPhotoList(it);
-        })
+            })
         photoViewModel.getAllPhoto().observe(requireActivity(), Observer {
             binding.recyclerView.apply {
                 layoutManager = manager;

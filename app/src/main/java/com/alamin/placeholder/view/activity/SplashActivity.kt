@@ -18,12 +18,12 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         localDataStore = LocalDataStore(this)
         lifecycleScope.launchWhenCreated {
-            localDataStore.getName().collect {
-                if (it !=-1){
-                    startActivity(Intent(this@SplashActivity,MainActivity::class.java))
+            localDataStore.getUser().collect {
+                if (it != -1) {
+                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                     finish()
-                }else{
-                    startActivity(Intent(this@SplashActivity,LoginActivity::class.java))
+                } else {
+                    startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                     finish()
                 }
             }

@@ -19,32 +19,32 @@ class AlbumRepository(val albumDao: AlbumDao) {
     val albumList: LiveData<List<Album>>
         get() = albumLiveDataList
 
-    suspend fun createAlbum(album: Album){
+    suspend fun createAlbum(album: Album) {
         albumDao.createAlbum(album);
     }
 
-    suspend fun insertAlbumList(albumList: List<Album>){
+    suspend fun insertAlbumList(albumList: List<Album>) {
         albumDao.insertAlbumList(albumList);
     }
 
-    suspend fun updateAlbum(album: Album){
+    suspend fun updateAlbum(album: Album) {
         albumDao.updateAlbum(album);
     }
 
-    suspend fun deleteAlbum(album: Album){
+    suspend fun deleteAlbum(album: Album) {
         albumDao.deleteAlbum(album);
     }
 
-    fun itemById(id: Int): LiveData<Album>{
+    fun itemById(id: Int): LiveData<Album> {
         return albumDao.findAlbumById(id);
     }
 
-    fun getAllAlbum(): LiveData<List<Album>>{
+    fun getAllAlbum(): LiveData<List<Album>> {
         return albumDao.getAllAlbum();
     }
 
-    suspend fun getAlbumFromResponse(id: Int){
-        val result : Response<List<Album>> = apiInterface.getAllAlbum(id);
+    suspend fun getAlbumFromResponse(id: Int) {
+        val result: Response<List<Album>> = apiInterface.getAllAlbum(id);
         result?.let {
             albumLiveDataList.postValue(it.body());
         }

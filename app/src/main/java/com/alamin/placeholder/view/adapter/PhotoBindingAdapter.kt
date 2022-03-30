@@ -5,6 +5,6 @@ import androidx.databinding.BindingAdapter
 import coil.load
 
 @BindingAdapter("setImage")
-fun ImageView.setImage(photoUrl: String){
+fun ImageView.setImage(photoUrl: String) {
     this.load(photoUrl)
 }

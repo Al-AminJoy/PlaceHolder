@@ -43,8 +43,11 @@ class MainActivity : AppCompatActivity() {
         headerBinding = HeaderBinding.bind(binding.navView.getHeaderView(0));
         lifecycleScope.launchWhenCreated {
             localDatabase.getUser().collect {
-                var user: User = Gson().fromJson(it.toString(), User::class.java);
-                headerBinding.user = user
+                if (it != -1) {
+                    var user: User = Gson().fromJson(it.toString(), User::class.java);
+                    headerBinding.user = user
+                }
+
             }
         }
 
@@ -66,13 +69,13 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration);
         binding.navView.setupWithNavController(navController);
         binding.navView.setNavigationItemSelectedListener {
-            if (it.itemId == R.id.logout){
+            if (it.itemId == R.id.logout) {
                 lifecycleScope.launch {
-                    localDatabase.clearAllPreferences();
+                    localDatabase.removeUser();
                 }
-                startActivity(Intent(this@MainActivity,LoginActivity::class.java))
+                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                 finish()
-            }else{
+            } else {
                 onNavDestinationSelected(it, navController)
                 binding.layoutDrawer.closeDrawers()
             }

@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 private const val TAG = "UpdateFragment"
+
 class UpdateFragment : Fragment() {
     private val arg by navArgs<UpdateFragmentArgs>()
     private lateinit var binding: FragmentUpdateBinding;
@@ -36,18 +37,24 @@ class UpdateFragment : Fragment() {
         localDataStore = LocalDataStore(requireContext())
         binding.post = arg.post
         binding.btnUpdate.setOnClickListener {
-            if (isValid(binding.txtBody.text.toString(),binding.txtTitle.text.toString())){
-                val post= Post(arg.post.id,binding.txtBody.text.toString(),binding.txtTitle.text.toString(),arg.post.userId)
-                viewModel.updatePostToServer(post, object: OnResponseCall{
+            if (isValid(binding.txtBody.text.toString(), binding.txtTitle.text.toString())) {
+                val post = Post(
+                    arg.post.id,
+                    binding.txtBody.text.toString(),
+                    binding.txtTitle.text.toString(),
+                    arg.post.userId
+                )
+                viewModel.updatePostToServer(post, object : OnResponseCall {
                     override fun onSuccess(message: String) {
                         lifecycleScope.launch(Dispatchers.Main) {
-                            Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                             findNavController().navigate(R.id.action_updateFragment_to_homeFragment);
                         }
                     }
+
                     override fun onFailed(message: String) {
                         lifecycleScope.launch(Dispatchers.Main) {
-                            Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                         }
 
                     }

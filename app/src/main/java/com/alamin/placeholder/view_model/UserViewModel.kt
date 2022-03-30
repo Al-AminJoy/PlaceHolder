@@ -15,43 +15,43 @@ import com.alamin.placeholder.model.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class UserViewModel(application: Application): AndroidViewModel(application) {
-    private  val userDao: UserDao = LocalDatabase.getDatabase(application).userDao();
-    private  val userRepository: UserRepository = UserRepository(userDao);
+class UserViewModel(application: Application) : AndroidViewModel(application) {
+    private val userDao: UserDao = LocalDatabase.getDatabase(application).userDao();
+    private val userRepository: UserRepository = UserRepository(userDao);
 
 
     val user: LiveData<User>
-    get() = userRepository.user;
+        get() = userRepository.user;
 
-     fun getUserResponse(id: Int){
+    fun getUserResponse(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             userRepository.getUserFromResponse(id);
         }
     }
 
-     fun createUser(user:User){
+    fun createUser(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
             userRepository.createUser(user);
         }
     }
 
-     fun updateUser(user: User){
+    fun updateUser(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
             userRepository.updateUser(user)
         }
     }
 
-     fun deleteUser(user: User){
+    fun deleteUser(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
             userRepository.deleteUser(user)
         }
     }
 
-    fun findUserById(id: Int): LiveData<User>{
+    fun findUserById(id: Int): LiveData<User> {
         return userRepository.itemById(id);
     }
 
-    fun getAllUser(): LiveData<List<User>>{
+    fun getAllUser(): LiveData<List<User>> {
         return userRepository.getAllUser();
     }
 }

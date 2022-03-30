@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
         postViewModel.getAllPost().observe(requireActivity(), Observer {
             binding.recyclerView.layoutManager = manager;
             adapter = PostAdapter(it.asReversed());
-            adapter.setPostClickListener(object: PostClickListener{
+            adapter.setPostClickListener(object : PostClickListener {
                 override fun onItemClick(post: Post) {
                     val action = HomeFragmentDirections.actionHomeFragmentToUpdateFragment(post)
                     findNavController().navigate(action)

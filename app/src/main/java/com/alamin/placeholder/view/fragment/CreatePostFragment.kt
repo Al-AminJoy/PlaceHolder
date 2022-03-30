@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 private const val TAG = "CreatePostFragment"
+
 class CreatePostFragment : Fragment() {
     private lateinit var binding: FragmentCreatePostBinding;
     private lateinit var viewModel: PostViewModel;
@@ -37,9 +38,14 @@ class CreatePostFragment : Fragment() {
         binding.btnPost.setOnClickListener {
             lifecycleScope.launchWhenCreated {
                 localDataStore.getId().collect {
-                    if (valideData(binding.txtTitle.text,binding.txtBody.text)){
-                        val post = Post(0,binding.txtBody.text.toString(),binding.txtTitle.text.toString(),it);
-                        viewModel.createPostToServer(post,object : OnResponseCall{
+                    if (valideData(binding.txtTitle.text, binding.txtBody.text)) {
+                        val post = Post(
+                            0,
+                            binding.txtBody.text.toString(),
+                            binding.txtTitle.text.toString(),
+                            it
+                        );
+                        viewModel.createPostToServer(post, object : OnResponseCall {
                             override fun onSuccess(message: String) {
                                 binding.txtTitle.setText("");
                                 binding.txtBody.setText("");
@@ -50,7 +56,8 @@ class CreatePostFragment : Fragment() {
 
                             override fun onFailed(message: String) {
                                 lifecycleScope.launch(Dispatchers.Main) {
-                                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT)
+                                        .show()
                                 }
                             }
                         });
@@ -64,6 +71,6 @@ class CreatePostFragment : Fragment() {
     }
 
     private fun valideData(title: Editable?, body: Editable?): Boolean {
-       return title.toString().trim().isNotEmpty() && body.toString().trim().isNotEmpty();
+        return title.toString().trim().isNotEmpty() && body.toString().trim().isNotEmpty();
     }
 }

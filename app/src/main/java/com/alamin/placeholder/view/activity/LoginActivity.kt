@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 private const val TAG = "LoginActivity"
+
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     lateinit var userViewModel: UserViewModel;
@@ -45,15 +46,15 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
 
         binding.btnLogin.setOnClickListener {
-            if (validateData(binding.txtUid.text)){
-              userViewModel.user.observe(this, Observer {
-                    if (it != null){
+            if (validateData(binding.txtUid.text)) {
+                userViewModel.user.observe(this, Observer {
+                    if (it != null) {
                         lifecycleScope.launch {
                             userViewModel.createUser(it);
                             localDataStore.storeName(it.name)
                             localDataStore.storeId(it.id)
                             localDataStore.storeUser(Gson().toJson(it))
-                            startActivity(Intent(this@LoginActivity,MainActivity::class.java))
+                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                             finish()
                         }
                     }
@@ -62,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun validateData(email: Editable?): Boolean {
         return email.toString()?.trim()?.isNotEmpty();
     }

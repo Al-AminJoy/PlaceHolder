@@ -14,75 +14,75 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 private const val TAG = "PostViewModel"
-class PostViewModel(application: Application): AndroidViewModel(application) {
+
+class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val postDao: PostDao = LocalDatabase.getDatabase(application).postDao();
     private val postRepository: PostRepository = PostRepository(postDao);
 
     val post: LiveData<Post>
-    get() = postRepository.post
+        get() = postRepository.post
 
     val postList: LiveData<List<Post>>
         get() = postRepository.postList
 
-    fun createPost(post: Post){
+    fun createPost(post: Post) {
         viewModelScope.launch(Dispatchers.IO) {
             postRepository.createPost(post);
         }
     }
 
-     fun createPostToServer(post: Post, onResponseCall: OnResponseCall){
+    fun createPostToServer(post: Post, onResponseCall: OnResponseCall) {
         viewModelScope.launch(Dispatchers.IO) {
-           val response = postRepository.createPostToServer(post);
-            if (response){
+            val response = postRepository.createPostToServer(post);
+            if (response) {
                 createPost(post)
                 onResponseCall.onSuccess("Success");
-            }else{
+            } else {
                 onResponseCall.onFailed("Failed");
             }
         }
     }
 
 
-
-    fun insertPostList(post: List<Post>){
+    fun insertPostList(post: List<Post>) {
         viewModelScope.launch(Dispatchers.IO) {
             postRepository.insertPostList(post);
         }
     }
 
-    fun updatePost(post: Post){
+    fun updatePost(post: Post) {
         viewModelScope.launch(Dispatchers.IO) {
             postRepository.updatePost(post)
         }
     }
 
-    fun updatePostToServer(post: Post, onResponseCall: OnResponseCall){
+    fun updatePostToServer(post: Post, onResponseCall: OnResponseCall) {
         viewModelScope.launch(Dispatchers.IO) {
-            val  response = postRepository.updatePostToServer(post);
-            if (response){
+            val response = postRepository.updatePostToServer(post);
+            if (response) {
                 updatePost(post);
                 onResponseCall.onSuccess("Success")
-            }else{
+            } else {
                 onResponseCall.onFailed("Failed")
             }
         }
     }
 
-    fun deletePost(post: Post){
+    fun deletePost(post: Post) {
         viewModelScope.launch(Dispatchers.IO) {
             postRepository.deletePost(post)
         }
     }
 
-    fun findPostById(id: Int): LiveData<Post>{
+    fun findPostById(id: Int): LiveData<Post> {
         return postRepository.itemById(id);
     }
 
-    fun getAllPost(): LiveData<List<Post>>{
+    fun getAllPost(): LiveData<List<Post>> {
         return postRepository.getAllPost();
     }
 
-     fun getPostFromResponseByUserId(id: Int){
+    fun getPostFromResponseByUserId(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             postRepository.getPostByUserFromResponse(id)
         }

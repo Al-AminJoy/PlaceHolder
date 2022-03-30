@@ -12,39 +12,39 @@ import com.alamin.placeholder.model.repository.CommentRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CommentViewModel(application: Application): AndroidViewModel(application){
+class CommentViewModel(application: Application) : AndroidViewModel(application) {
     private val commentDao: CommentDao = LocalDatabase.getDatabase(application).commentDao();
     private val commentRepository: CommentRepository = CommentRepository(commentDao);
 
     val comment: LiveData<Comment>
-    get() = commentRepository.comment
+        get() = commentRepository.comment
 
     val commentList: LiveData<List<Comment>>
         get() = commentRepository.commentList
 
-    fun createComment(comment: Comment){
+    fun createComment(comment: Comment) {
         viewModelScope.launch(Dispatchers.IO) {
             commentRepository.createComment(comment);
         }
     }
 
-    fun updateComment(comment: Comment){
+    fun updateComment(comment: Comment) {
         viewModelScope.launch(Dispatchers.IO) {
             commentRepository.updateComment(comment)
         }
     }
 
-    fun deleteComment(comment: Comment){
+    fun deleteComment(comment: Comment) {
         viewModelScope.launch(Dispatchers.IO) {
             commentRepository.deleteComment(comment)
         }
     }
 
-    fun findCommentById(id: Int): LiveData<Comment>{
+    fun findCommentById(id: Int): LiveData<Comment> {
         return commentRepository.itemById(id);
     }
 
-    fun getAllComment(): LiveData<List<Comment>>{
+    fun getAllComment(): LiveData<List<Comment>> {
         return commentRepository.getAllComment();
     }
 }

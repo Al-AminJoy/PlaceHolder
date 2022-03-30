@@ -9,61 +9,62 @@ import com.alamin.placeholder.model.network.APIClient
 import com.alamin.placeholder.model.network.ApiInterface
 
 private const val TAG = "PostRepository"
+
 class PostRepository(val postDao: PostDao) {
     val apiInterface: ApiInterface = APIClient.getInstance().create(ApiInterface::class.java);
     val postLiveData = MutableLiveData<Post>();
     val postLiveDataList = MutableLiveData<List<Post>>();
 
-    val post:LiveData<Post>
-    get() = postLiveData;
+    val post: LiveData<Post>
+        get() = postLiveData;
 
     val postList: LiveData<List<Post>>
-    get() = postLiveDataList
+        get() = postLiveDataList
 
-    suspend fun createPost(post: Post){
+    suspend fun createPost(post: Post) {
         postDao.createPost(post);
     }
 
-    suspend fun createPostToServer(post: Post): Boolean{
+    suspend fun createPostToServer(post: Post): Boolean {
         val response = apiInterface.createPost(post);
         response?.let {
             return response.isSuccessful
         }
     }
 
-    suspend fun insertPostList(post: List<Post>){
+    suspend fun insertPostList(post: List<Post>) {
         postDao.insertPostList(post);
     }
 
-    suspend fun updatePost(post: Post){
+    suspend fun updatePost(post: Post) {
         postDao.updatePost(post);
     }
 
-    suspend fun updatePostToServer(post: Post):Boolean{
+    suspend fun updatePostToServer(post: Post): Boolean {
         val result = apiInterface.updatePost(post.id);
         result?.let {
             return result.isSuccessful
         }
     }
 
-    suspend fun deletePost(post: Post){
+    suspend fun deletePost(post: Post) {
         postDao.deletePost(post);
     }
 
-    fun itemById(id: Int): LiveData<Post>{
+    fun itemById(id: Int): LiveData<Post> {
         return postDao.findPostById(id);
     }
 
-    fun getAllPost(): LiveData<List<Post>>{
+    fun getAllPost(): LiveData<List<Post>> {
         return postDao.getAllPost();
     }
 
-    suspend fun getPostByUserFromResponse(id: Int){
+    suspend fun getPostByUserFromResponse(id: Int) {
         val result = apiInterface.getAllPost();
         var list = arrayListOf<Post>()
         result?.let {
             result.body()?.forEach {
-                if (it.userId == id){
+                if (it.userId == id) {
                     list.add(it)
                 }
             }
