@@ -1,6 +1,7 @@
 package com.alamin.placeholder.view_model
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -12,6 +13,7 @@ import com.alamin.placeholder.model.repository.PostRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+private const val TAG = "PostViewModel"
 class PostViewModel(application: Application): AndroidViewModel(application) {
     private val postDao: PostDao = LocalDatabase.getDatabase(application).postDao();
     private val postRepository: PostRepository = PostRepository(postDao);
@@ -32,6 +34,7 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
            val response = postRepository.createPostToServer(post);
             if (response){
+                createPost(post)
                 onResponseCall.onSuccess("Success");
             }else{
                 onResponseCall.onFailed("Failed");
@@ -57,11 +60,11 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             val  response = postRepository.updatePostToServer(post);
             if (response){
+                updatePost(post);
                 onResponseCall.onSuccess("Success")
             }else{
                 onResponseCall.onFailed("Failed")
             }
-
         }
     }
 
