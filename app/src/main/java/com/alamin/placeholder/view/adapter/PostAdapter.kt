@@ -2,12 +2,14 @@ package com.alamin.placeholder.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alamin.placeholder.databinding.PostLayoutBinding
 import com.alamin.placeholder.model.data.Post
 
-class PostAdapter(private val postList: List<Post>) :
+class PostAdapter :
     RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+    private var postList: List<Post> = emptyList()
     private lateinit var postClickListener: PostClickListener
 
     inner class PostViewHolder(private val binding: PostLayoutBinding) :
@@ -34,5 +36,12 @@ class PostAdapter(private val postList: List<Post>) :
 
     fun setPostClickListener(postClickListener: PostClickListener) {
         this.postClickListener = postClickListener;
+    }
+
+    fun setData(newPostList: List<Post>){
+        val diffUtils = PostDiffUtils(postList,newPostList);
+        val diffResult = DiffUtil.calculateDiff(diffUtils);
+        postList = newPostList;
+        diffResult.dispatchUpdatesTo(this);
     }
 }

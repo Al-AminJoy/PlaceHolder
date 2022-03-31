@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
 
         postViewModel.getAllPost().observe(requireActivity(), Observer {
             binding.recyclerView.layoutManager = manager;
-            adapter = PostAdapter(it.asReversed());
+            adapter = PostAdapter();
             adapter.setPostClickListener(object : PostClickListener {
                 override fun onItemClick(post: Post) {
                     val action = HomeFragmentDirections.actionHomeFragmentToUpdateFragment(post)
@@ -64,6 +64,7 @@ class HomeFragment : Fragment() {
 
             })
             binding.recyclerView.adapter = adapter
+            adapter.setData(it.asReversed())
         })
 
         return binding.root;
