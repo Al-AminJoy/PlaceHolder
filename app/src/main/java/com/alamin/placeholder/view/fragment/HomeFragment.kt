@@ -29,7 +29,6 @@ class HomeFragment : Fragment() {
     private lateinit var localDataStore: LocalDataStore;
     private lateinit var binding: FragmentHomeBinding;
     private lateinit var postViewModel: PostViewModel;
-    private lateinit var manager: RecyclerView.LayoutManager
     private lateinit var adapter: PostAdapter;
 
     override fun onCreateView(
@@ -39,7 +38,6 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
         localDataStore = LocalDataStore(requireContext())
-        manager = LinearLayoutManager(requireContext());
 
         lifecycleScope.launch(Dispatchers.IO) {
             localDataStore.getId().collect {
@@ -53,17 +51,18 @@ class HomeFragment : Fragment() {
             postViewModel.insertPostList(it)
         })
 
-        postViewModel.getAllPost().observe(requireActivity(), Observer {
-            binding.recyclerView.layoutManager = manager;
-            adapter = PostAdapter();
-            adapter.setPostClickListener(object : PostClickListener {
-                override fun onItemClick(post: Post) {
-                    val action = HomeFragmentDirections.actionHomeFragmentToUpdateFragment(post)
-                    findNavController().navigate(action)
-                }
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext());
+        adapter = PostAdapter();
+        adapter.setPostClickListener(object : PostClickListener {
+            override fun onItemClick(post: Post) {
+                val action = HomeFragmentDirections.actionHomeFragmentToUpdateFragment(post)
+                findNavController().navigate(action)
+            }
 
-            })
-            binding.recyclerView.adapter = adapter
+        })
+        binding.recyclerView.adapter = adapter
+
+        postViewModel.getAllPost().observe(requireActivity(), Observer {
             adapter.setData(it.asReversed())
         })
 

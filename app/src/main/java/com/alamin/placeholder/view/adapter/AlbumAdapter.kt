@@ -2,12 +2,14 @@ package com.alamin.placeholder.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alamin.placeholder.databinding.GalleryLayoutBinding
 import com.alamin.placeholder.model.data.Album
 
-class AlbumAdapter(private val albumList: List<Album>) :
+class AlbumAdapter() :
     RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
+    private var albumList: List<Album> = emptyList()
     private var albumClickListener: AlbumClickListener? = null;
 
     inner class AlbumViewHolder(val binding: GalleryLayoutBinding) :
@@ -37,4 +39,12 @@ class AlbumAdapter(private val albumList: List<Album>) :
     fun setOnClickItem(albumClickListener: AlbumClickListener) {
         this.albumClickListener = albumClickListener;
     }
+
+    fun setData(newAlbumList : List<Album>){
+        val diffUtils = AlbumDiffUtils(albumList,newAlbumList)
+        val diffResult = DiffUtil.calculateDiff(diffUtils);
+        albumList = newAlbumList;
+        diffResult.dispatchUpdatesTo(this)
+    }
+
 }

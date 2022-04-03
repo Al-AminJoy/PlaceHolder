@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.collect
 private const val TAG = "AlbumFragment"
 class GalleryFragment : Fragment() {
     private lateinit var binding: FragmentGalleryBinding;
-    lateinit var manager: RecyclerView.LayoutManager;
     lateinit var localDataStore: LocalDataStore;
     lateinit var albumViewModel: AlbumViewModel;
     lateinit var adapter: AlbumAdapter;
@@ -38,7 +37,6 @@ class GalleryFragment : Fragment() {
         binding = FragmentGalleryBinding.inflate(layoutInflater);
         albumViewModel = ViewModelProvider(this).get(AlbumViewModel::class.java);
         localDataStore = LocalDataStore(requireContext());
-        manager = LinearLayoutManager(requireContext());
         lifecycleScope.launchWhenCreated {
             localDataStore.getId().collect {
                 if (AppUtils.isOnline(requireContext())) {
@@ -46,19 +44,22 @@ class GalleryFragment : Fragment() {
                 };
             }
         }
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext());
+        adapter = AlbumAdapter();
+        adapter.setOnClickItem(object : AlbumClickListener{
+            override fun onItemClicked(album: Album) {
+                var action = GalleryFragmentDirections.actionGalleryFragmentToPhotoFragment(album)
+                findNavController().navigate(action);
+            }
+        })
+        binding.recyclerView.adapter = adapter;
+
         albumViewModel.albumList.observe(requireActivity(), Observer {
             albumViewModel.insertAlbumList(it)
         })
         albumViewModel.getAllAlbum().observe(requireActivity(), Observer {
-            binding.recyclerView.layoutManager = manager
-            adapter = AlbumAdapter(it);
-            adapter.setOnClickItem(object : AlbumClickListener{
-                override fun onItemClicked(album: Album) {
-                    var action = GalleryFragmentDirections.actionGalleryFragmentToPhotoFragment(album)
-                   findNavController().navigate(action);
-                }
-            })
-            binding.recyclerView.adapter = adapter;
+            adapter.setData(it)
         })
         return binding.root;
     }

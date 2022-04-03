@@ -2,13 +2,14 @@ package com.alamin.placeholder.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alamin.placeholder.databinding.LayoutPhotoBinding
 import com.alamin.placeholder.model.data.Photo
 
-class PhotoAdapter(private val photoList: List<Photo>) :
+class PhotoAdapter() :
     RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>() {
-
+    private var photoList: List<Photo> = emptyList()
     inner class PhotoViewHolder(val binding: LayoutPhotoBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun binding(photo: Photo) {
@@ -27,6 +28,13 @@ class PhotoAdapter(private val photoList: List<Photo>) :
 
     override fun getItemCount(): Int {
         return photoList.size
+    }
+
+    fun setData(newPhotoList: List<Photo>){
+        val diffUtils = PhotoDiffUtils(photoList, newPhotoList);
+        val diffResult = DiffUtil.calculateDiff(diffUtils);
+        photoList = newPhotoList;
+        diffResult.dispatchUpdatesTo(this);
     }
 
 }
