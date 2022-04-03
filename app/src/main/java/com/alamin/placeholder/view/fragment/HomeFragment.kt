@@ -29,7 +29,7 @@ class HomeFragment : Fragment() {
     private lateinit var localDataStore: LocalDataStore;
     private lateinit var binding: FragmentHomeBinding;
     private lateinit var postViewModel: PostViewModel;
-    private lateinit var adapter: PostAdapter;
+    private lateinit var postAdapter: PostAdapter;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,20 +51,24 @@ class HomeFragment : Fragment() {
             postViewModel.insertPostList(it)
         })
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext());
-        adapter = PostAdapter();
-        adapter.setPostClickListener(object : PostClickListener {
-            override fun onItemClick(post: Post) {
-                val action = HomeFragmentDirections.actionHomeFragmentToUpdateFragment(post)
-                findNavController().navigate(action)
-            }
+        postAdapter = PostAdapter();
+        with(postAdapter){
+            setPostClickListener(object : PostClickListener {
+                override fun onItemClick(post: Post) {
+                    val action = HomeFragmentDirections.actionHomeFragmentToUpdateFragment(post)
+                    findNavController().navigate(action)
+                }
 
-        })
-        binding.recyclerView.adapter = adapter
+            })
+            postViewModel.getAllPost().observe(requireActivity(), Observer {
+                setData(it.asReversed())
+            })
+        }
 
-        postViewModel.getAllPost().observe(requireActivity(), Observer {
-            adapter.setData(it.asReversed())
-        })
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext());
+            adapter = postAdapter
+        }
 
         return binding.root;
     }

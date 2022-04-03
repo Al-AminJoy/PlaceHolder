@@ -23,7 +23,7 @@ private const val TAG = "PhotoFragment"
 class PhotoFragment : Fragment() {
     private lateinit var binding: FragmentPhotoBinding;
     private lateinit var photoViewModel: PhotoViewModel;
-    lateinit var adapter: PhotoAdapter ;
+    lateinit var photoAdapter: PhotoAdapter ;
     private val args by navArgs<PhotoFragmentArgs>()
 
     override fun onCreateView(
@@ -40,13 +40,17 @@ class PhotoFragment : Fragment() {
                 photoViewModel.insertPhotoList(it);
             })
 
-        adapter = PhotoAdapter();
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext());
-        binding.recyclerView.adapter = adapter
+        photoAdapter = PhotoAdapter();
+        with(photoAdapter){
+            photoViewModel.getAllPhoto().observe(requireActivity(), Observer {
+                setData(it)
+            })
+        }
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext());
+            adapter = photoAdapter
+        }
 
-        photoViewModel.getAllPhoto().observe(requireActivity(), Observer {
-           adapter.setData(it)
-        })
         return binding.root
     }
 

@@ -28,7 +28,7 @@ class GalleryFragment : Fragment() {
     private lateinit var binding: FragmentGalleryBinding;
     lateinit var localDataStore: LocalDataStore;
     lateinit var albumViewModel: AlbumViewModel;
-    lateinit var adapter: AlbumAdapter;
+    lateinit var albumAdapter: AlbumAdapter;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,22 +45,30 @@ class GalleryFragment : Fragment() {
             }
         }
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext());
-        adapter = AlbumAdapter();
-        adapter.setOnClickItem(object : AlbumClickListener{
-            override fun onItemClicked(album: Album) {
-                var action = GalleryFragmentDirections.actionGalleryFragmentToPhotoFragment(album)
-                findNavController().navigate(action);
-            }
-        })
-        binding.recyclerView.adapter = adapter;
-
         albumViewModel.albumList.observe(requireActivity(), Observer {
             albumViewModel.insertAlbumList(it)
         })
-        albumViewModel.getAllAlbum().observe(requireActivity(), Observer {
-            adapter.setData(it)
-        })
+
+
+        albumAdapter = AlbumAdapter();
+        with(albumAdapter){
+            setOnClickItem(object : AlbumClickListener{
+                override fun onItemClicked(album: Album) {
+                    var action = GalleryFragmentDirections.actionGalleryFragmentToPhotoFragment(album)
+                    findNavController().navigate(action);
+                }
+            })
+
+            albumViewModel.getAllAlbum().observe(requireActivity(), Observer {
+                setData(it)
+            })
+        }
+
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext());
+            adapter = albumAdapter;
+        }
+
         return binding.root;
     }
 }
