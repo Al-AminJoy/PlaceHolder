@@ -4,14 +4,16 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alamin.placeholder.model.data.Post
+import com.alamin.placeholder.model.local.LocalDatabase
 import com.alamin.placeholder.model.local.dao.PostDao
 import com.alamin.placeholder.model.network.APIClient
 import com.alamin.placeholder.model.network.ApiInterface
+import javax.inject.Inject
 
 private const val TAG = "PostRepository"
 
-class PostRepository(val postDao: PostDao) {
-    val apiInterface: ApiInterface = APIClient.getInstance().create(ApiInterface::class.java);
+class PostRepository @Inject constructor(private val apiInterface: ApiInterface, private val localDatabase: LocalDatabase) {
+    val postDao = localDatabase.postDao();
     val postLiveData = MutableLiveData<Post>();
     val postLiveDataList = MutableLiveData<List<Post>>();
 

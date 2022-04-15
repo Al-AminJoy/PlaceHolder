@@ -10,33 +10,39 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.alamin.placeholder.PlaceHolderApplication
 import com.alamin.placeholder.databinding.FragmentHomeBinding
 import com.alamin.placeholder.model.data.Post
 import com.alamin.placeholder.utils.AppUtils
 import com.alamin.placeholder.utils.LocalDataStore
 import com.alamin.placeholder.view.adapter.PostAdapter
 import com.alamin.placeholder.view.adapter.PostClickListener
+import com.alamin.placeholder.view_model.PostViewModelFactory
 import com.alamin.placeholder.view_model.PostViewModel
 import kotlinx.android.synthetic.main.fragment_gallery.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val TAG = "HomeFragment"
 
 class HomeFragment : Fragment() {
     private lateinit var localDataStore: LocalDataStore;
     private lateinit var binding: FragmentHomeBinding;
+    @Inject
+    lateinit var postViewModelFactory: PostViewModelFactory;
     private lateinit var postViewModel: PostViewModel;
-    private lateinit var postAdapter: PostAdapter;
+    @Inject
+    lateinit var postAdapter: PostAdapter;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-        postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
+        val component = (requireActivity().applicationContext as PlaceHolderApplication).appComponent
+        component.injectHome(this)
+        postViewModel = ViewModelProvider(this,postViewModelFactory).get(PostViewModel::class.java)
         localDataStore = LocalDataStore(requireContext())
 
         lifecycleScope.launch(Dispatchers.IO) {
@@ -51,7 +57,7 @@ class HomeFragment : Fragment() {
             postViewModel.insertPostList(it)
         })
 
-        postAdapter = PostAdapter();
+       // postAdapter = PostAdapter();
         with(postAdapter){
             setPostClickListener(object : PostClickListener {
                 override fun onItemClick(post: Post) {

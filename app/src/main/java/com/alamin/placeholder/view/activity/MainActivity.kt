@@ -66,6 +66,8 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration);
         binding.navView.setupWithNavController(navController);
+
+
         binding.navView.setNavigationItemSelectedListener {
             if (it.itemId == R.id.logout) {
                 lifecycleScope.launch {

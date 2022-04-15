@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alamin.placeholder.databinding.PostLayoutBinding
 import com.alamin.placeholder.model.data.Post
+import javax.inject.Inject
 
-class PostAdapter :
+class PostAdapter @Inject constructor() :
     RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
     private var postList: List<Post> = emptyList()
     private lateinit var postClickListener: PostClickListener

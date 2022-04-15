@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alamin.placeholder.model.data.Post
 import com.alamin.placeholder.model.local.LocalDatabase
@@ -12,28 +13,27 @@ import com.alamin.placeholder.model.network.OnResponseCall
 import com.alamin.placeholder.model.repository.PostRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val TAG = "PostViewModel"
 
-class PostViewModel(application: Application) : AndroidViewModel(application) {
-    private val postDao: PostDao = LocalDatabase.getDatabase(application).postDao();
-    private val postRepository: PostRepository = PostRepository(postDao);
+class PostViewModel @Inject constructor (private val repository: PostRepository) : ViewModel() {
 
     val post: LiveData<Post>
-        get() = postRepository.post
+        get() = repository.post
 
     val postList: LiveData<List<Post>>
-        get() = postRepository.postList
+        get() = repository.postList
 
     fun createPost(post: Post) {
         viewModelScope.launch(Dispatchers.IO) {
-            postRepository.createPost(post);
+            repository.createPost(post);
         }
     }
 
     fun createPostToServer(post: Post, onResponseCall: OnResponseCall) {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = postRepository.createPostToServer(post);
+            val response = repository.createPostToServer(post);
             if (response) {
                 createPost(post)
                 onResponseCall.onSuccess("Success");
@@ -46,19 +46,19 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun insertPostList(post: List<Post>) {
         viewModelScope.launch(Dispatchers.IO) {
-            postRepository.insertPostList(post);
+            repository.insertPostList(post);
         }
     }
 
     fun updatePost(post: Post) {
         viewModelScope.launch(Dispatchers.IO) {
-            postRepository.updatePost(post)
+            repository.updatePost(post)
         }
     }
 
     fun updatePostToServer(post: Post, onResponseCall: OnResponseCall) {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = postRepository.updatePostToServer(post);
+            val response = repository.updatePostToServer(post);
             if (response) {
                 updatePost(post);
                 onResponseCall.onSuccess("Success")
@@ -70,21 +70,21 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun deletePost(post: Post) {
         viewModelScope.launch(Dispatchers.IO) {
-            postRepository.deletePost(post)
+            repository.deletePost(post)
         }
     }
 
     fun findPostById(id: Int): LiveData<Post> {
-        return postRepository.itemById(id);
+        return repository.itemById(id);
     }
 
     fun getAllPost(): LiveData<List<Post>> {
-        return postRepository.getAllPost();
+        return repository.getAllPost();
     }
 
     fun getPostFromResponseByUserId(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            postRepository.getPostByUserFromResponse(id)
+            repository.getPostByUserFromResponse(id)
         }
     }
 }
