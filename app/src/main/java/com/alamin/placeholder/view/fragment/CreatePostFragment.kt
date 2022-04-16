@@ -11,20 +11,26 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.alamin.placeholder.PlaceHolderApplication
 import com.alamin.placeholder.R
 import com.alamin.placeholder.databinding.FragmentCreatePostBinding
 import com.alamin.placeholder.model.data.Post
 import com.alamin.placeholder.model.network.OnResponseCall
 import com.alamin.placeholder.utils.LocalDataStore
+import com.alamin.placeholder.view_model.PhotoViewModelFactory
 import com.alamin.placeholder.view_model.PostViewModel
+import com.alamin.placeholder.view_model.PostViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
 private const val TAG = "CreatePostFragment"
 
 class CreatePostFragment : Fragment() {
+    @Inject
+    lateinit var postViewModelFactory: PostViewModelFactory;
     private lateinit var binding: FragmentCreatePostBinding;
     private lateinit var viewModel: PostViewModel;
     private lateinit var localDataStore: LocalDataStore;
@@ -33,7 +39,9 @@ class CreatePostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCreatePostBinding.inflate(layoutInflater);
-        viewModel = ViewModelProvider(this).get(PostViewModel::class.java);
+        val component = (requireActivity().applicationContext as PlaceHolderApplication).appComponent
+        component.injectCreatePost(this)
+        viewModel = ViewModelProvider(this,postViewModelFactory).get(PostViewModel::class.java);
         localDataStore = LocalDataStore(requireContext());
         binding.btnPost.setOnClickListener {
             lifecycleScope.launchWhenCreated {

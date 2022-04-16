@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alamin.placeholder.PlaceHolderApplication
 import com.alamin.placeholder.R
 import com.alamin.placeholder.databinding.FragmentGalleryBinding
 import com.alamin.placeholder.model.data.Album
@@ -20,22 +21,29 @@ import com.alamin.placeholder.utils.LocalDataStore
 import com.alamin.placeholder.view.adapter.AlbumAdapter
 import com.alamin.placeholder.view.adapter.AlbumClickListener
 import com.alamin.placeholder.view_model.AlbumViewModel
+import com.alamin.placeholder.view_model.AlbumViewModelFactory
 import kotlinx.android.synthetic.main.fragment_gallery.*
 import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 private const val TAG = "AlbumFragment"
-class GalleryFragment : Fragment() {
+class AlbumFragment : Fragment() {
+    @Inject
+    lateinit var albumViewModelFactory: AlbumViewModelFactory;
+    @Inject
+    lateinit var albumAdapter: AlbumAdapter;
     private lateinit var binding: FragmentGalleryBinding;
     lateinit var localDataStore: LocalDataStore;
-    lateinit var albumViewModel: AlbumViewModel;
-    lateinit var albumAdapter: AlbumAdapter;
+    private lateinit var albumViewModel: AlbumViewModel;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentGalleryBinding.inflate(layoutInflater);
-        albumViewModel = ViewModelProvider(this).get(AlbumViewModel::class.java);
+        val component = (requireActivity().applicationContext as PlaceHolderApplication).appComponent
+        component.injectAlbum(this)
+        albumViewModel = ViewModelProvider(this,albumViewModelFactory).get(AlbumViewModel::class.java);
         localDataStore = LocalDataStore(requireContext());
         lifecycleScope.launchWhenCreated {
             localDataStore.getId().collect {
@@ -50,11 +58,10 @@ class GalleryFragment : Fragment() {
         })
 
 
-        albumAdapter = AlbumAdapter();
         with(albumAdapter){
             setOnClickItem(object : AlbumClickListener{
                 override fun onItemClicked(album: Album) {
-                    var action = GalleryFragmentDirections.actionGalleryFragmentToPhotoFragment(album)
+                    var action = AlbumFragmentDirections.actionGalleryFragmentToPhotoFragment(album)
                     findNavController().navigate(action);
                 }
             })

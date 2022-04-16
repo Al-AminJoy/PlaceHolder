@@ -3,6 +3,7 @@ package com.alamin.placeholder.view_model
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alamin.placeholder.model.data.Album
 import com.alamin.placeholder.model.data.User
@@ -11,10 +12,9 @@ import com.alamin.placeholder.model.local.dao.AlbumDao
 import com.alamin.placeholder.model.repository.AlbumRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AlbumViewModel(application: Application) : AndroidViewModel(application) {
-    private val albumDao: AlbumDao = LocalDatabase.getDatabase(application).albumDao();
-    private val albumRepository: AlbumRepository = AlbumRepository(albumDao);
+class AlbumViewModel @Inject constructor(private val albumRepository: AlbumRepository) : ViewModel() {
 
     val album: LiveData<Album>
         get() = albumRepository.album

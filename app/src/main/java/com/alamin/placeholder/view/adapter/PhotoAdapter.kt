@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alamin.placeholder.databinding.LayoutPhotoBinding
 import com.alamin.placeholder.model.data.Photo
+import javax.inject.Inject
 
-class PhotoAdapter() :
+class PhotoAdapter @Inject constructor() :
     RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>() {
     private var photoList: List<Photo> = emptyList()
     inner class PhotoViewHolder(val binding: LayoutPhotoBinding) :

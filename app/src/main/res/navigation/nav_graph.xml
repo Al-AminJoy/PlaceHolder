@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/galleryFragment"
-        android:name="com.alamin.placeholder.view.fragment.GalleryFragment"
+        android:name="com.alamin.placeholder.view.fragment.AlbumFragment"
         android:label="Gallery"
         tools:layout="@layout/fragment_gallery">
         <action

@@ -10,19 +10,24 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.alamin.placeholder.PlaceHolderApplication
 import com.alamin.placeholder.R
 
 import com.alamin.placeholder.databinding.ActivityLoginBinding
 import com.alamin.placeholder.utils.LocalDataStore
 import com.alamin.placeholder.view_model.UserViewModel
+import com.alamin.placeholder.view_model.UserViewModelFactory
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
 private const val TAG = "LoginActivity"
 
 class LoginActivity : AppCompatActivity() {
+    @Inject
+    lateinit var userViewModelProvider: UserViewModelFactory
     private lateinit var binding: ActivityLoginBinding
     lateinit var userViewModel: UserViewModel;
     lateinit var localDataStore: LocalDataStore;
@@ -31,7 +36,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
-        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java);
+        val component = (application as PlaceHolderApplication).appComponent
+        component.injectLogin(this);
+        userViewModel = ViewModelProvider(this,userViewModelProvider).get(UserViewModel::class.java);
         binding.userViewModel = userViewModel;
         binding.lifecycleOwner = this;
         setContentView(binding.root)

@@ -3,12 +3,14 @@ package com.alamin.placeholder.model.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alamin.placeholder.model.data.User
+import com.alamin.placeholder.model.local.LocalDatabase
 import com.alamin.placeholder.model.local.dao.UserDao
 import com.alamin.placeholder.model.network.APIClient
 import com.alamin.placeholder.model.network.ApiInterface
+import javax.inject.Inject
 
-class UserRepository(private val userDao: UserDao) {
-    var apiInterface: ApiInterface = APIClient.getInstance().create(ApiInterface::class.java);
+class UserRepository @Inject constructor (private val apiInterface: ApiInterface, private val localDatabase: LocalDatabase) {
+    val userDao = localDatabase.userDao()
     val userLiveData = MutableLiveData<User>();
 
     val user: LiveData<User>

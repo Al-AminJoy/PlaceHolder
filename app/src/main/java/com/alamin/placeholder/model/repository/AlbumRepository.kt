@@ -3,13 +3,15 @@ package com.alamin.placeholder.model.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alamin.placeholder.model.data.Album
+import com.alamin.placeholder.model.local.LocalDatabase
 import com.alamin.placeholder.model.local.dao.AlbumDao
 import com.alamin.placeholder.model.network.APIClient
 import com.alamin.placeholder.model.network.ApiInterface
 import retrofit2.Response
+import javax.inject.Inject
 
-class AlbumRepository(val albumDao: AlbumDao) {
-    val apiInterface: ApiInterface = APIClient.getInstance().create(ApiInterface::class.java);
+class AlbumRepository @Inject constructor(private val apiInterface: ApiInterface, private val localDatabase: LocalDatabase) {
+    val albumDao = localDatabase.albumDao();
     val albumLiveData = MutableLiveData<Album>();
     val albumLiveDataList = MutableLiveData<List<Album>>();
 

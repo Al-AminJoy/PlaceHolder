@@ -7,11 +7,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.alamin.placeholder.PlaceHolderApplication
 import com.alamin.placeholder.R
 import com.alamin.placeholder.databinding.ActivityMainBinding
 import com.alamin.placeholder.databinding.HeaderBinding
@@ -26,14 +28,17 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
 private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    lateinit var headerBinding: HeaderBinding;
+    private lateinit var headerBinding: HeaderBinding;
     private lateinit var localDatabase: LocalDataStore;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)

@@ -26,12 +26,12 @@ import javax.inject.Inject
 private const val TAG = "UpdateFragment"
 
 class UpdateFragment : Fragment() {
+    @Inject
+    lateinit var postViewModelFactory: PostViewModelFactory;
     private val arg by navArgs<UpdateFragmentArgs>()
     private lateinit var binding: FragmentUpdateBinding;
     private lateinit var viewModel: PostViewModel;
     private lateinit var localDataStore: LocalDataStore;
-    @Inject
-    lateinit var postViewModelFactory: PostViewModelFactory;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

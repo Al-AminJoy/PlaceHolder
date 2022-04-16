@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alamin.placeholder.databinding.GalleryLayoutBinding
 import com.alamin.placeholder.model.data.Album
+import javax.inject.Inject
 
-class AlbumAdapter() :
+class AlbumAdapter @Inject constructor() :
     RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
     private var albumList: List<Album> = emptyList()
     private var albumClickListener: AlbumClickListener? = null;

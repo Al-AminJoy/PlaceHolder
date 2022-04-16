@@ -4,15 +4,17 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alamin.placeholder.model.data.Photo
+import com.alamin.placeholder.model.local.LocalDatabase
 import com.alamin.placeholder.model.local.dao.PhotoDao
 import com.alamin.placeholder.model.network.APIClient
 import com.alamin.placeholder.model.network.ApiInterface
 import retrofit2.Response
+import javax.inject.Inject
 
 private const val TAG = "PhotoRepository"
 
-class PhotoRepository(val photoDao: PhotoDao) {
-    val apiInterface: ApiInterface = APIClient.getInstance().create(ApiInterface::class.java)
+class PhotoRepository @Inject constructor(private val apiInterface: ApiInterface,private val localDatabase: LocalDatabase) {
+    val photoDao = localDatabase.photoDao()
     val photoLiveData = MutableLiveData<Photo>();
     val photoLiveDataList = MutableLiveData<List<Photo>>();
 

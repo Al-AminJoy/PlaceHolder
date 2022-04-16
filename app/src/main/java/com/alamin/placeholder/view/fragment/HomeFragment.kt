@@ -27,13 +27,13 @@ import javax.inject.Inject
 private const val TAG = "HomeFragment"
 
 class HomeFragment : Fragment() {
-    private lateinit var localDataStore: LocalDataStore;
-    private lateinit var binding: FragmentHomeBinding;
     @Inject
     lateinit var postViewModelFactory: PostViewModelFactory;
-    private lateinit var postViewModel: PostViewModel;
     @Inject
     lateinit var postAdapter: PostAdapter;
+    private lateinit var localDataStore: LocalDataStore;
+    private lateinit var binding: FragmentHomeBinding;
+    private lateinit var postViewModel: PostViewModel;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +57,6 @@ class HomeFragment : Fragment() {
             postViewModel.insertPostList(it)
         })
 
-       // postAdapter = PostAdapter();
         with(postAdapter){
             setPostClickListener(object : PostClickListener {
                 override fun onItemClick(post: Post) {
