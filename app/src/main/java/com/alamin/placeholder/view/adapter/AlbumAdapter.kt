@@ -8,7 +8,7 @@ import com.alamin.placeholder.databinding.GalleryLayoutBinding
 import com.alamin.placeholder.model.data.Album
 import javax.inject.Inject
 
-class AlbumAdapter @Inject constructor() :
+class AlbumAdapter @Inject constructor( private val albumDiffUtils: AlbumDiffUtils) :
     RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
     private var albumList: List<Album> = emptyList()
     private var albumClickListener: AlbumClickListener? = null;
@@ -42,8 +42,8 @@ class AlbumAdapter @Inject constructor() :
     }
 
     fun setData(newAlbumList : List<Album>){
-        val diffUtils = AlbumDiffUtils(albumList,newAlbumList)
-        val diffResult = DiffUtil.calculateDiff(diffUtils);
+        albumDiffUtils.setList(albumList,newAlbumList)
+        val diffResult = DiffUtil.calculateDiff(albumDiffUtils);
         albumList = newAlbumList;
         diffResult.dispatchUpdatesTo(this)
     }
