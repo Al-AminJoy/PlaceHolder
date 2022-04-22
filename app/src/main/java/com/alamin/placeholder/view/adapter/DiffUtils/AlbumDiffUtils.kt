@@ -1,4 +1,4 @@
-package com.alamin.placeholder.view.adapter
+package com.alamin.placeholder.view.adapter.DiffUtils
 
 import androidx.recyclerview.widget.DiffUtil
 import com.alamin.placeholder.model.data.Album

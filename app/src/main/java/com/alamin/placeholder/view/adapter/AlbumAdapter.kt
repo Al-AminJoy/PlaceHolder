@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alamin.placeholder.databinding.GalleryLayoutBinding
 import com.alamin.placeholder.model.data.Album
+import com.alamin.placeholder.view.adapter.DiffUtils.AlbumDiffUtils
 import javax.inject.Inject
 
 class AlbumAdapter @Inject constructor( private val albumDiffUtils: AlbumDiffUtils) :

@@ -1,12 +1,20 @@
-package com.alamin.placeholder.view.adapter
+package com.alamin.placeholder.view.adapter.DiffUtils
 
 import androidx.recyclerview.widget.DiffUtil
+import com.alamin.placeholder.model.data.Album
 import com.alamin.placeholder.model.data.Post
+import javax.inject.Inject
 
-class PostDiffUtils(
-    private val oldList: List<Post>,
-    private val newList: List<Post>
-) : DiffUtil.Callback() {
+class PostDiffUtils @Inject constructor () : DiffUtil.Callback() {
+
+    private lateinit var oldList: List<Post>;
+    private lateinit var newList: List<Post>
+
+    fun setList(oldList: List<Post>, newList: List<Post>){
+        this.oldList = oldList
+        this.newList = newList
+    }
+
     override fun getOldListSize(): Int {
         return oldList.size
     }

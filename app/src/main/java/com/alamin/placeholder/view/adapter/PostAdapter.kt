@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alamin.placeholder.databinding.PostLayoutBinding
 import com.alamin.placeholder.model.data.Post
+import com.alamin.placeholder.view.adapter.DiffUtils.PostDiffUtils
 import javax.inject.Inject
 
-class PostAdapter @Inject constructor() :
+class PostAdapter @Inject constructor(private val postDiffUtils: PostDiffUtils) :
     RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
     private var postList: List<Post> = emptyList()
     private lateinit var postClickListener: PostClickListener
@@ -40,8 +41,8 @@ class PostAdapter @Inject constructor() :
     }
 
     fun setData(newPostList: List<Post>){
-        val diffUtils = PostDiffUtils(postList,newPostList);
-        val diffResult = DiffUtil.calculateDiff(diffUtils);
+        postDiffUtils.setList(postList, newPostList)
+        val diffResult = DiffUtil.calculateDiff(postDiffUtils);
         postList = newPostList;
         diffResult.dispatchUpdatesTo(this);
     }

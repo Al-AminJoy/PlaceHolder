@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alamin.placeholder.databinding.LayoutPhotoBinding
 import com.alamin.placeholder.model.data.Photo
+import com.alamin.placeholder.view.adapter.DiffUtils.PhotoDiffUtils
 import javax.inject.Inject
 
-class PhotoAdapter @Inject constructor() :
+class PhotoAdapter @Inject constructor(private val photoDiffUtils: PhotoDiffUtils) :
     RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>() {
     private var photoList: List<Photo> = emptyList()
     inner class PhotoViewHolder(val binding: LayoutPhotoBinding) :
@@ -32,8 +33,8 @@ class PhotoAdapter @Inject constructor() :
     }
 
     fun setData(newPhotoList: List<Photo>){
-        val diffUtils = PhotoDiffUtils(photoList, newPhotoList);
-        val diffResult = DiffUtil.calculateDiff(diffUtils);
+        photoDiffUtils.setList(photoList, newPhotoList)
+        val diffResult = DiffUtil.calculateDiff(photoDiffUtils);
         photoList = newPhotoList;
         diffResult.dispatchUpdatesTo(this);
     }
