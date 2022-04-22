@@ -5,8 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.alamin.placeholder.model.repository.PostRepository
 import javax.inject.Inject
 
-class PostViewModelFactory @Inject constructor(private val repository: PostRepository): ViewModelProvider.Factory {
+class ViewModelFactory @Inject constructor(private val map: Map< Class<*>, @JvmSuppressWildcards ViewModel>)
+    : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return PostViewModel(repository) as T
+        return map[modelClass] as T
     }
 }

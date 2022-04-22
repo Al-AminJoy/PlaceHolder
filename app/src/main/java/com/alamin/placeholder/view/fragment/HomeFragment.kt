@@ -17,9 +17,8 @@ import com.alamin.placeholder.utils.AppUtils
 import com.alamin.placeholder.utils.LocalDataStore
 import com.alamin.placeholder.view.adapter.PostAdapter
 import com.alamin.placeholder.view.adapter.PostClickListener
-import com.alamin.placeholder.view_model.PostViewModelFactory
+import com.alamin.placeholder.view_model.ViewModelFactory
 import com.alamin.placeholder.view_model.PostViewModel
-import kotlinx.android.synthetic.main.fragment_gallery.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,7 +27,7 @@ private const val TAG = "HomeFragment"
 
 class HomeFragment : Fragment() {
     @Inject
-    lateinit var postViewModelFactory: PostViewModelFactory;
+    lateinit var viewModelFactory: ViewModelFactory;
     @Inject
     lateinit var postAdapter: PostAdapter;
     private lateinit var localDataStore: LocalDataStore;
@@ -42,7 +41,7 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         val component = (requireActivity().applicationContext as PlaceHolderApplication).appComponent
         component.injectHome(this)
-        postViewModel = ViewModelProvider(this,postViewModelFactory).get(PostViewModel::class.java)
+        postViewModel = ViewModelProvider(this,viewModelFactory).get(PostViewModel::class.java)
         localDataStore = LocalDataStore(requireContext())
 
         lifecycleScope.launch(Dispatchers.IO) {

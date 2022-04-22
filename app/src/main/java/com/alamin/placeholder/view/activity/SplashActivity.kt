@@ -9,8 +9,8 @@ import com.alamin.placeholder.R
 import com.alamin.placeholder.utils.LocalDataStore
 import kotlinx.coroutines.flow.collect
 
+private const val TAG = "SplashActivity"
 class SplashActivity : AppCompatActivity() {
-    private val TAG = "SplashActivity"
     lateinit var localDataStore: LocalDataStore;
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.alamin.placeholder.model.data.Album
 import javax.inject.Inject
 
+private const val TAG = "AlbumDiffUtils"
 class AlbumDiffUtils @Inject constructor() :
     DiffUtil.Callback() {
     private lateinit var oldList: List<Album>;

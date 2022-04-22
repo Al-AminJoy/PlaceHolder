@@ -1,7 +1,6 @@
 package com.alamin.placeholder.view.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +17,7 @@ import com.alamin.placeholder.model.data.Post
 import com.alamin.placeholder.model.network.OnResponseCall
 import com.alamin.placeholder.utils.LocalDataStore
 import com.alamin.placeholder.view_model.PostViewModel
-import com.alamin.placeholder.view_model.PostViewModelFactory
+import com.alamin.placeholder.view_model.ViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,7 +26,7 @@ private const val TAG = "UpdateFragment"
 
 class UpdateFragment : Fragment() {
     @Inject
-    lateinit var postViewModelFactory: PostViewModelFactory;
+    lateinit var viewModelFactory: ViewModelFactory;
     private val arg by navArgs<UpdateFragmentArgs>()
     private lateinit var binding: FragmentUpdateBinding;
     private lateinit var viewModel: PostViewModel;
@@ -40,7 +39,7 @@ class UpdateFragment : Fragment() {
         binding = FragmentUpdateBinding.inflate(layoutInflater)
         val component = (requireActivity().applicationContext as PlaceHolderApplication).appComponent
         component.injectUpdate(this);
-        viewModel = ViewModelProvider(this,postViewModelFactory).get(PostViewModel::class.java);
+        viewModel = ViewModelProvider(this,viewModelFactory).get(PostViewModel::class.java);
         localDataStore = LocalDataStore(requireContext())
         binding.post = arg.post
         binding.btnUpdate.setOnClickListener {

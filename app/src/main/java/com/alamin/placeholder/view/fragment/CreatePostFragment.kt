@@ -2,7 +2,6 @@ package com.alamin.placeholder.view.fragment
 
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,20 +16,17 @@ import com.alamin.placeholder.databinding.FragmentCreatePostBinding
 import com.alamin.placeholder.model.data.Post
 import com.alamin.placeholder.model.network.OnResponseCall
 import com.alamin.placeholder.utils.LocalDataStore
-import com.alamin.placeholder.view_model.PhotoViewModelFactory
 import com.alamin.placeholder.view_model.PostViewModel
-import com.alamin.placeholder.view_model.PostViewModelFactory
+import com.alamin.placeholder.view_model.ViewModelFactory
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 private const val TAG = "CreatePostFragment"
 
 class CreatePostFragment : Fragment() {
     @Inject
-    lateinit var postViewModelFactory: PostViewModelFactory;
+    lateinit var viewModelFactory: ViewModelFactory;
     private lateinit var binding: FragmentCreatePostBinding;
     private lateinit var viewModel: PostViewModel;
     private lateinit var localDataStore: LocalDataStore;
@@ -41,7 +37,7 @@ class CreatePostFragment : Fragment() {
         binding = FragmentCreatePostBinding.inflate(layoutInflater);
         val component = (requireActivity().applicationContext as PlaceHolderApplication).appComponent
         component.injectCreatePost(this)
-        viewModel = ViewModelProvider(this,postViewModelFactory).get(PostViewModel::class.java);
+        viewModel = ViewModelProvider(this,viewModelFactory).get(PostViewModel::class.java);
         localDataStore = LocalDataStore(requireContext());
         binding.btnPost.setOnClickListener {
             lifecycleScope.launchWhenCreated {
